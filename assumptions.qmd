@@ -1,0 +1,261 @@
+# The Classical Linear Model (Gauss-Markov) Assumptions
+
+## CLRM Assumptions
+
+For the Ordinary Least Squares (OLS) estimators $\hat{\alpha}$ and $\hat{\beta}$ to have desirable properties (like being the **Best Linear Unbiased Estimators**, or BLUE), a set of assumptions about the population model must hold. These are the core assumptions for **cross-sectional** data analysis.
+
+Given that the population model is
+
+$$Y_i = \alpha + \beta X_i + u_i$$
+
+**Assumption 1: Conditional Mean Zero**
+
+The error term $u$ has an expected value of zero, **given any value of the explanatory variable** $X$.
+
+$$E(u_i | X_i) = 0$$
+
+-   **Interpretation:** This means that the explanatory variable $X$ provides no information about the mean of the unobserved factors. On average, the positive and negative omitted effects cancel out. This is the single most important assumption.
+-   **Implication:** It implies that the model is correctly specified in its functional form and that there are **no omitted variables that are correlated with** $X$. If this assumption fails, our OLS estimates are **biased**.
+
+**Assumption 2: Homoskedasticity**
+
+The error term $u$ has the same variance given any value of the explanatory variable.
+
+$$Var(u_i | X_i) = \sigma^2$$
+
+-   **Interpretation:** The variance of the unobserved factors is constant across all values of $X$. The spread of the data points around the regression line is the same whether $X$ is small or large.
+-   **Implication:** If this holds, OLS standard errors are valid. If it fails, we have **heteroskedasticity**, which means OLS estimates are still unbiased but their standard errors are incorrect. This leads to faulty hypothesis tests and confidence intervals.
+
+**Assumption 3: No Autocorrelation**
+
+The error terms for any two different observations are uncorrelated.
+
+$$Cov(u_i, u_j | X_i) = 0 \quad \text{for all } i \neq j$$
+
+-   **Interpretation:** The unobserved factors affecting $Y$ for one observation are not correlated with the unobserved factors affecting $Y$ for any other observation. In cross-sectional data, this is usually guaranteed by random sampling. However autocorrelation is usually a concern for **time-series data**.
+-   **Implication:** Like heteroskedasticity, if this assumption fails, OLS estimates remain unbiased but the standard errors are incorrect/inefficient, leading to unreliable inference.
+
+**Assumption 4: Exogeneity**
+
+The explanatory variable $X$ is uncorrelated with the error term $u$.
+
+$$Cov(X_i, u_i) = 0$$
+
+-   **Interpretation:** This is essentially a weaker version of Assumption 1. It means $X$ is not influenced by the unobserved factors in $u$.
+-   **Implication:** This assumption is crucial especially for **causal interpretation**. If $X$ is correlated with $u$, it could mean an omitted variable that affects $Y$ is also correlated with $X$ (a.k.a confounding, or the "third variable" problem). This is the famous **omitted variable bias**, which causes $\hat{\beta}$ to be biased and inconsistent.
+
+**Assumption 5: No Perfect Multicollinearity**
+
+-   **Interpretation (for simple regression):** In the simple regression model with one explanatory variable, this assumption is automatically satisfied as long as $X$ is not constant.
+-   **Interpretation (for multiple regression):** This assumption becomes critical when we have more than one explanatory variable. It states that no independent variable is a perfect linear combination of another independent variable(s).
+
+## The Gauss-Markov Theorem
+
+If Assumptions 1 through 4 hold (and 5 for multiple regression), the OLS estimators $\hat{\alpha}$ and $\hat{\beta}$ are the **Best Linear Unbiased Estimators (BLUE)**.
+
+-   **Linear:** They are linear functions of the data.
+-   **Unbiased:** On average, across repeated samples, they equal the true population parameters, i.e. $E[\hat{\beta}] = \beta$.
+-   **Best:** They have the smallest variance among all other linear unbiased estimators. This means they are the most precise (efficient).
+
+This theorem is why OLS is the workhorse of econometrics—under these conditions, no other linear estimator is better.
+
+### Checking Assumptions
+
+While a full diagnostic check will be done in later chapters, we'll start by checking for nonconstant variances, or heteroskedasticty.
+
+#### Testing for Heteroskedasticity
+
+Here is a quick example of how to generate residual plots whch can be useful to visually check for homoskedasticity and mean zero.
+
+```{r}
+# Fit the model
+model <- lm(mpg ~ wt, data = mtcars)
+
+# Create a dataframe of fitted values and residuals
+diagnostic_data <- data.frame(
+  fitted = fitted(model),
+  residuals = resid(model)
+)
+
+# Plot residuals vs. fitted values
+library(ggplot2)
+ggplot(diagnostic_data, aes(x = fitted, y = residuals)) +
+  geom_point(alpha = 0.8) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  labs(title = "Residuals vs. Fitted Values",
+       x = "Fitted Values (Y_hat)",
+       y = "Residuals (u_hat)") +
+  theme_minimal()
+```
+
+**Interpreting the plot:** We look for a random scatter of points around the red zero line. The absence of a clear pattern (e.g., a curve or a funnel) is a good sign that Assumptions 1 and 2 are plausible. In this `mtcars` example, there might be a slight pattern, suggesting a potential minor violation worth investigating further.
+
+A more formal test is the **White test**, a general and powerful test for heteroskedasticity. It does not assume a specific form for the heteroskedasticity (e.g., that variance increases with X). The test works by regressing the squared residuals from the original model on the original explanatory variables, their squares, and their cross-products.
+
+The null and alternative hypotheses are:
+
+$H_0$: Homoskedasticity exists (the error variance is constant).
+
+$H_1$: Heteroskedasticity exists (the error variance is not constant).
+
+```{r}
+# install.packages("lmtest") # Uncomment and run if needed
+library(lmtest)
+
+# Perform the White test for the simple model mpg ~ wt
+bptest(model, ~ wt * hp + I(wt^2) + I(hp^2), data = mtcars)
+```
+The `bptest()` output shows a BP test statistic and a p-value. A p-value < 0.05 means you reject the null hypothesis of homoskedasticity. In the `mtcars` example above, we fail to reject the null hypothesis, suggesting that we have may not have heteroskedasticty.
+
+Altrrnatively:
+
+```{r}
+#| warning: false
+#| message: false
+# 1. Estimate the original simple regression model
+simple_model <- lm(mpg ~ wt, data = mtcars)
+
+# 2. Obtain the squared residuals from the model
+squared_residuals <- resid(simple_model)^2
+
+# 3. Perform the "auxiliary regression" for the White test:
+# Regress the squared residuals on the original regressor (wt) and its square (wt²).
+white_aux_model <- lm(squared_residuals ~ wt + I(wt^2), data = mtcars)
+
+# 4. Conduct an F-test on the auxiliary model.
+# The null hypothesis is that the coefficients on 'wt' and 'I(wt^2)' are zero.
+# install.packages("car") # Uncomment and run if you don't have the 'car' package
+library(car)
+
+linearHypothesis(white_aux_model, c("wt=0", "I(wt^2)=0"))
+```
+We look at the F-statistic and its p-value (Pr(>F)). A p-value < 0.05 provides evidence to reject the null hypothesis ($H_0$) of homoskedasticity, thereby suggesting the error variance is not constant and depends on weight (wt). Here, again Pr(>F) is 0.5312, hence we fail to reject the null.
+
+#### Testing for Endogeneity
+
+Endogeneity occurs when an explanatory variable is correlated with the error term ($Cov(X, u) \neq 0$), violating a key Gauss-Markov assumption (4). This often arises from:
+
+1.  Confounding leading to omitted variable bias
+2.  Reverse causality
+3.  Measurement Error
+4. Simultaneity
+
+The consequence is that the OLS estimator becomes **biased and inconsistent**.
+
+**The Logic of the Hausman Test**
+
+The test follows a straightforward logic:
+
+1.  **Null Hypothesis ($H_0$):** The variable in question is *exogenous* ($Cov(X, u) = 0$). OLS is consistent and efficient.
+
+2.  **Alternative Hypothesis ($H_1$):** The variable is *endogenous* ($Cov(X, u) \neq 0$). OLS is inconsistent.
+
+The test compares two estimators:
+
+-   **OLS Estimator:** Efficient (has the smallest possible variance) under $H_0$, but **inconsistent** under $H_1$.
+-   **IV (Instrumental Variables) Estimator:** Consistent under both $H_0$ and $H_1$, but **inefficient** (has larger variance) under $H_0$.
+
+If the variable is exogenous ($H_0$ is true), the OLS and IV estimates should be similar. If they are significantly different, we have evidence that endogeneity is present ($H_1$ is true).
+
+**Implementing the Hausman Test in R: A Step-by-Step Guide**
+
+The test is implemented as a **Durbin-Wu-Hausman** test via a convenient auxiliary regression.
+
+**Prerequisite:** You must have at least one **valid instrument** for the potentially endogenous variable. A valid instrument must be:
+
+1.  **Relevant:** Correlated with the endogenous variable.
+2.  **Exogenous:** *Not* correlated with the error term ($Cov(Z, u) = 0$).
+
+**Scenario:** Suppose we fear that `wt` (weight) is endogenous in our model `mpg ~ wt`. Suppose we use `hp` (horsepower) as instruments.
+
+**Step 1: Estimate the First Stage Regression**
+
+Regress the potentially endogenous variable (`hp`) on all exogenous variables and the instruments.
+```{r}
+#| warning: false
+#| message: false
+# First Stage: Regress the endogenous variable on instruments and other exogenous vars
+first_stage <- lm(hp ~ wt + hp, data = mtcars)
+
+# Retrieve the residuals from the first stage
+first_stage_residuals <- resid(first_stage)
+
+# Add these residuals to the original dataset for the next step
+mtcars$fs_resid <- first_stage_residuals
+```
+
+**Step 2: Estimate the Auxiliary Regression**
+Run the original model, but *include the first-stage residuals* as an additional regressor.
+
+```{r}
+#| warning: false
+#| message: false
+# Auxiliary Regression: Original model + first stage residuals
+auxiliary_model <- lm(mpg ~ wt + fs_resid, data = mtcars)
+summary(auxiliary_model)
+```
+
+**Step 3: Interpret the Result**
+-   The key is the **t-test on the coefficient of the residual variable (`fs_resid`)**.
+-   **Null Hypothesis ($H_0$):** The coefficient on the residuals is zero. This means the variable (`wt`) is exogenous.
+-   **Alternative Hypothesis ($H_1$):** The coefficient on the residuals is *not* zero. This is evidence of endogeneity.
+
+A low p-value (typically < 0.05) on the `fs_resid` coefficient leads to a rejection of the null hypothesis, suggesting that `wt` is indeed endogenous.
+
+**Using the `ivreg` and `lmtest` packages**
+
+A more efficient method is to use the `ivreg()` function from the `AER` package and then formally test for endogeneity.
+
+Specifying a model with instruments: The syntax y ~ x1 + x2 | z1 + z2 means that we are regressing y on x1 and x2, using for x2 instruments z1 and z2 (and x1 is included as its own instrument).
+
+```{r}
+#| warning: false
+#| message: false
+# install.packages("AER") # Install the Applied Econometrics with R package
+library(AER)
+library(lmtest)
+
+# 1. Estimate the model via IV and OLS
+# IV model: Specify the formula and instruments
+iv_model <- ivreg(mpg ~ wt | hp, data = mtcars)
+
+# 2. Perform the Hausman test
+# The null is that OLS is consistent (no endogeneity)
+
+# Run summary with diagnostics
+summary(iv_model, diagnostics = TRUE)
+```
+
+**Interpreting the Test:**
+
+**Weak Instruments Test**
+
+What it tests: Whether the instrument(s) (hp) is sufficiently correlated with the endogenous regressor (wt). A strong first-stage relationship is crucial for IV to work.
+
+Interpretation: The null hypothesis is that the instruments are weak.
+
+The result (p-value = 4.15e-05), an extremely low p-value, suggests that we should strongly reject the null. The instrument(s) are not weak; they are strong and relevant. This is a good sign.
+
+**Wu-Hausman Test (for Endogeneity)**
+
+What it tests: This is the test for endogeneity. The null hypothesis ($H_0$) is that the variable (wt) is exogenous. The alternative ($H_1$) is that it is endogenous.
+
+Interpretation: A low p-value suggests you should reject $H_0$ and use the IV estimator. A high p-value means you cannot reject $H_0$ and should prefer the efficient OLS estimator.
+
+The result (p-value = 0.0014), a low p-value means we should reject the null hypothesis. There is statistical evidence that wt is endogenous. Therefore, the standard OLS estimates for mpg ~ wt gives biased etimates.
+
+**Sargan Test (for Overidentifying Restrictions)**
+
+What it tests: This test checks the validity of your overidentifying instruments. It is only relevant if you have more instruments than endogenous variables. The null hypothesis ($H_0$) is that the extra instruments are valid (uncorrelated with the error term).
+
+Interpretation: A low p-value is undesirable, as it means you should reject $H_0$ and suspect that at least one of your extra instruments is invalid.
+
+**What to Do If You Find Endogeneity?**
+
+If the test suggests endogeneity, you should **not trust the OLS results**. You must use a method that addresses the endogeneity, such as:
+
+-   **Finding Better Controls:** If the endogeneity is from omitted variable bias.
+-   **Instrumental Variables (IV) Regression:** The primary solution, implemented with `ivreg()`.
+-   **Using Panel Data Methods:** Such as fixed effects models, if you have panel data.
+
+**Important:** The validity of the Hausman test hinges on the **quality of your instruments**. If your instruments are weak or invalid, the test itself is unreliable. Always check the first-stage F-statistic to ensure instrument strength (a rule of thumb is F-stat > 10).

@@ -1,0 +1,25 @@
+project:
+  type: book
+  output-dir: docs
+  
+book:
+  title: "Applied Econometrics Notes"
+  author: "-YY-"
+  date: "Fall 2025"
+  chapters:
+    - index.qmd
+    - simple.qmd
+    - assumptions.qmd
+    - multiple.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+

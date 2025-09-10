@@ -1,0 +1,271 @@
+# Simple Regression Model: Basics of OLS
+
+## Introduction
+
+Economic theory suggests relationships between variables, but it rarely provides the *quantitative magnitude* of these causal effects. For example, we are interested in questions such as:
+
+-   What is the effect of **reducing class size** on student academic performance?
+-   What is the **price elasticity** of cigarettes?
+-   What is the **return to an additional year** of education?
+-   How does a **1 percentage point increase in interest rates** affect output growth?
+
+Ideally, we would answer these questions with **controlled experiments**. However, this is often impractical, unethical, or impossible. Instead, econometricians must rely on **observational data**.
+
+The core challenge with observational studies is that **correlation does not imply causation**. Some major threats to establishing a proper empirical understanding of economic relationships are:
+
+1.  **Omitted Variable Bias (Confounding Factors):** A variable we have not accounted for is influencing **both** the dependent and independent variable.
+2.  **Simultaneous Causality:** Two variables influence each other simultaneously (e.g., police numbers and crime rates).
+3.  **Sample Selection Bias:** The process by which data is collected influences the availability of data, leading to a non-random sample that may not represent the population of interest.
+
+As a way of introduction, we introduce the primary tools used to estimate relationships from observational data in econometrics: the **Ordinary Least Squares (OLS)** method.
+
+## Types of Data
+
+Before we begin, it's useful to recognize the common structures of econometric data:
+
+-   **Cross-sectional:** Data on multiple entities (individuals, firms, countries) at a single point in time.
+-   **Time-series:** Data on a single entity collected at multiple time periods (e.g., daily, quarterly, yearly).
+-   **Panel/Longitudinal:** Data on multiple entities where each entity is observed at multiple time periods. This combines cross-sectional and time-series dimensions.
+-   **Pooled Cross-sectional:** Multiple cross-sectional samples taken at different points in time, where the entities in each sample are different.
+
+## The Simple Regression Model
+
+Let's begin by investigating the linear relationship between two variables, $Y$ (the dependent variable) and $X$ (the independent or explanatory variable).
+
+### The Population Regression Function (PRF)
+
+Imagine we could collect data on *everyone* in the population of interest. The true relationship in the population is given by the **Population Regression Function**:
+
+$$Y_i = \alpha + \beta X_i + u_i$$
+
+-   $Y_i$ is the dependent variable for observation $i$.
+-   $X_i$ is the independent variable for observation $i$.
+-   $\alpha$ is the **population intercept**.
+-   $\beta$ is the **population slope** coefficient (the parameter of primary interest).
+-   $u_i$ is the **error term**, which contains all factors other than $X$ that influence $Y$.
+
+We can never observe the true PRF because we cannot collect data on the entire population. The error term $u_i$ exists due to: (1) The inherent randomness of human behavior, (2) Unavailable or incomplete data, (3) Omitted variables from the model, (4) Imperfect functional form specification, (5) Aggregation errors, (6) Measurement errors.
+
+### The Sample Regression Function (SRF)
+
+Since we can't work with the population, we take a sample and use it to *estimate* the PRF. The estimated model is called the **Sample Regression Function**:
+
+$$\hat{Y}_i = \hat{\alpha} + \hat{\beta} X_i$$
+
+$$Y_i = \hat{\alpha} + \hat{\beta} X_i + \hat{u}_i$$
+
+-   $\hat{Y}_i$ is the **predicted** or **fitted value** of $Y_i$.
+-   $\hat{\alpha}$ and $\hat{\beta}$ are the **estimators** of the population parameters $\alpha$ and $\beta$. These coefficients are calculated from our sample data.
+-   $\hat{u}_i = Y_i - \hat{Y}_i$ is the **residual** for observation $i$, which is our estimate of the unobserved error term $u_i$.
+
+## The Ordinary Least Squares (OLS) Method
+
+How do we find the "best" line through our scatter of data points? The OLS method chooses $\hat{\alpha}$ and $\hat{\beta}$ that minimizes the **Sum of Squared Residuals (SSR)**.
+
+$$\min_{\hat{\alpha}, \hat{\beta}} \sum_{i=1}^n \hat{u}_i^2 = \min_{\hat{\alpha}, \hat{\beta}} \sum_{i=1}^n (Y_i - \hat{\alpha} - \hat{\beta} X_i)^2$$
+
+The formulas for the OLS estimators, derived by solving this minimization problem (the "normal equations"), are:
+
+$$\hat{\beta} = \frac{\sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^n (X_i - \bar{X})^2} = \frac{\sum_{i=1}^n x_i y_i}{\sum_{i=1}^n x_i^2}$$
+
+$$\hat{\alpha} = \bar{Y} - \hat{\beta}\bar{X}$$
+
+### Intuition behind the OLS estimators
+
+The formulas for $\hat{\alpha}$ and $\hat{\beta}$ aren't arbitrary; they are the direct mathematical solution to the problem of minimizing the sum of squared residuals. But we can also understand them intuitively.
+
+#### Intuition for the Slope ($\hat{\beta}$)
+
+Let's look at the formula for the slope estimator more closely:
+
+$$\hat{\beta} = \frac{\sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^n (X_i - \bar{X})^2}$$
+
+-   Dividing the numerator by $n$ gives $\frac{1}{n-1} \sum (X_i - \bar{X})(Y_i - \bar{Y})$, which is the **sample covariance** between $X$ and $Y$. Recall that the covariance measures how two variables move together:
+    -   If $X$ is above its mean when $Y$ is above its mean (and vice versa), the products $(X_i - \bar{X})(Y_i - \bar{Y})$ will be positive, leading to a positive covariance and a positive $\hat{\beta}$.
+    -   If $X$ is above its mean when $Y$ is below its mean, the products will be negative, leading to a negative covariance and a negative $\hat{\beta}$.
+-   Note also that dividing the denominator by $n$ gives $\frac{1}{n-1} \sum (X_i - \bar{X})^2$, which is the **sample variance** of $X$. The variance measures the spread or variation of $X$ around its own mean.
+
+So, we can think of $\hat{\beta}$ as: $$\hat{\beta} = \frac{\text{Sample Covariance between X and Y}}{\text{Sample Variance of X}}$$
+
+In other words, the OLS slope estimator answers the question: "For a given amount of movement in $X$, how much associated movement do we see in $Y$?" It **scales** the co-movement of $X$ and $Y$ by the movement in $X$ itself. A steeper slope (larger $|\hat{\beta}|$) means a unit change in $X$ is associated with a larger change in $Y$.
+
+#### Intuition for the Intercept ($\hat{\alpha}$)
+
+The formula for the intercept is: $$\hat{\alpha} = \bar{Y} - \hat{\beta}\bar{X}$$
+
+This ensures that the regression line **always passes through the point of the means** $(\bar{X}, \bar{Y})$. Think of it as an "anchor" point for the line.
+
+-   $\hat{\beta}\bar{X}$ tells us where the regression line would predict $\bar{Y}$ to be based *only* on the average value of $X$.
+-   $\bar{Y} - \hat{\beta}\bar{X}$ is the adjustment needed so that the prediction is correct precisely at the means. It represents the predicted value of $Y$ when $X = 0$, which may or may not be a meaningful value depending on the context (e.g., predicting a company's profit when revenue is zero might not be sensible).
+
+#### The Core Idea of "Least Squares"
+
+The goal is to minimize the sum of **squared** residuals ($\sum \hat{u}_i^2$). Why squares? 1. **Squaring penalizes large errors more severely than small errors.** A residual of 2 is four times "worse" than a residual of 1 $(2^2 = 4$ vs. $1^2 = 1)$. This makes the estimator very sensitive to outliers. 2. **Squaring ensures all errors are positive.** We don't want positive and negative errors to cancel each other out. 3. **The math works out nicely.** Minimizing a quadratic function (like the sum of squares) leads to the clean, linear equations ("normal equations") that give us the formulas for $\hat{\alpha}$ and $\hat{\beta}$.
+
+The OLS method therefore finds the unique line that minimizes the *total squared vertical distance* between the observed data points $(X_i, Y_i)$ and the line itself. It's a best-fit line by its own specific definition of "best" (minimum sum of squared errors).
+
+### Fitting an OLS Model in R
+
+Let's use the `mtcars` dataset to estimate a simple regression model, predicting miles per gallon (`mpg`) using car weight (`wt`).
+
+```{r}
+# Load the built-in dataset
+data(mtcars)
+
+# Estimate the OLS model
+model <- lm(mpg ~ wt, data = mtcars)
+
+# Print a summary of the results
+summary(model)
+```
+
+The output shows our estimated coefficients is $\hat{\alpha}$ (Intercept) = `r round(coef(model)[1], 2)` and $\hat{\beta}$ (wt) = `r round(coef(model)[2], 2)`
+
+This gives us the Sample Regression Line
+
+$$\widehat{mpg}_i = 37.29 - 5.34 \times wt_i$$
+
+Hence, for a one-ton increase in car weight, we predict miles per gallon will decrease by about 5.34 units.
+
+## Derivation of the OLS Estimators
+
+The formulas for $\hat{\alpha}$ and $\hat{\beta}$ are derived by solving the minimization problem of the Sum of Squared Residuals (SSR). This process involves calculus, specifically taking derivatives and setting them to zero to find the minimum. The resulting equations are called the **normal equations**.
+
+### The Minimization Problem
+
+We aim to find the values of $\hat{\alpha}$ and $\hat{\beta}$ that minimize: $$S(\hat{\alpha}, \hat{\beta}) = \sum_{i=1}^n \hat{u}_i^2 = \sum_{i=1}^n (Y_i - \hat{\alpha} - \hat{\beta} X_i)^2$$
+
+### The Normal Equations
+
+To find the minimum, we take the partial derivatives of $S(\hat{\alpha}, \hat{\beta})$ with respect to $\hat{\alpha}$ and $\hat{\beta}$ and set them equal to zero.
+
+1.  **Derivative with respect to** $\hat{\alpha}$: $$\frac{\partial S}{\partial \hat{\alpha}} = -2 \sum_{i=1}^n (Y_i - \hat{\alpha} - \hat{\beta} X_i) = 0$$ This simplifies to the **first normal equation**: $$\sum_{i=1}^n Y_i = n\hat{\alpha} + \hat{\beta} \sum_{i=1}^n X_i \quad \text{(1)}$$
+
+2.  **Derivative with respect to** $\hat{\beta}$: $$\frac{\partial S}{\partial \hat{\beta}} = -2 \sum_{i=1}^n X_i(Y_i - \hat{\alpha} - \hat{\beta} X_i) = 0$$ This simplifies to the **second normal equation**: $$\sum_{i=1}^n X_iY_i = \hat{\alpha} \sum_{i=1}^n X_i + \hat{\beta} \sum_{i=1}^n X_i^2 \quad \text{(2)}$$
+
+### Solving the Normal Equations
+
+We now have a system of two equations with two unknowns ($\hat{\alpha}$ and $\hat{\beta}$).
+
+1.  **Solving for** $\hat{\alpha}$: Start by rearranging the first normal equation (1): $$\hat{\alpha} = \bar{Y} - \hat{\beta}\bar{X}$$ where $\bar{Y} = \frac{1}{n}\sum Y_i$ and $\bar{X} = \frac{1}{n}\sum X_i$. This is our formula for the intercept.
+
+2.  **Solving for** $\hat{\beta}$: Substitute the expression for $\hat{\alpha}$ into the second normal equation (2): $$\sum X_iY_i = (\bar{Y} - \hat{\beta}\bar{X})\sum X_i + \hat{\beta} \sum X_i^2$$ Solving this for $\hat{\beta}$ involves some algebra. Subtract $\bar{Y}\sum X_i$ from both sides and factor out $\hat{\beta}$: $$\sum X_iY_i - \bar{Y}\sum X_i = \hat{\beta} \left( \sum X_i^2 - \bar{X}\sum X_i \right)$$ Note that $\sum X_iY_i - \bar{Y}\sum X_i = \sum (X_i - \bar{X})(Y_i - \bar{Y})$ and $\sum X_i^2 - \bar{X}\sum X_i = \sum (X_i - \bar{X})^2$. This gives us the final formula: $$\hat{\beta} = \frac{\sum (X_i - \bar{X})(Y_i - \bar{Y})}{\sum (X_i - \bar{X})^2} = \frac{\sum_{i=1}^n x_i y_i}{\sum_{i=1}^n x_i^2}$$
+
+## Standard Errors of the OLS Estimators
+
+The OLS estimators $\hat{\alpha}$ and $\hat{\beta}$ are random variables—their values vary from sample to sample. The **standard error** measures the precision of these estimates by estimating the standard deviation of their sampling distributions. Smaller standard errors indicate more precise estimates.
+
+### The Formula for the Standard Error of $\hat{\beta}$
+
+To conduct statistical inference on our OLS estimate $\hat{\beta}$ (e.g., to build confidence intervals or test hypotheses), we need to estimate its sampling variability. This variability is measured by its **variance** or, more commonly, its **standard error**.
+
+**The True Variance of $\hat{\beta}$**
+
+Under the classical linear model assumptions, the true variance of the OLS slope estimator in a simple regression is given by:
+
+$$Var(\hat{\beta}) = \frac{\sigma^2}{\sum_{i=1}^n (X_i - \bar{X})^2}$$
+
+where,  $\sigma^2 = Var(u_i)$ is the **variance of the unobserved error term**, and $\sum_{i=1}^n (X_i - \bar{X})^2$ is the total variation of the independent variable $X$ around its mean.
+
+This formula shows that the precision of $\hat{\beta}$ improves (its variance decreases) when either (1) the error variance ($\sigma^2$) is smaller (the data points are tighter around the line, and/or (2) the spread of the explanatory variable $X$ is larger (there is more information in the data).
+
+**Estimating the Unknown Error Variance ($\sigma^2$)**
+
+Since the error variance $\sigma^2$ is unknown, we must estimate it using the sample data. An unbiased estimator for $\sigma^2$ is
+
+$$\hat{\sigma}^2 = \frac{1}{n - k} \sum_{i=1}^n \hat{u}_i^2   \quad \text{or}   \quad \frac{SSR}{n - k}$$
+
+where, $SSR = \sum_{i=1}^n \hat{u}_i^2$ is the **Sum of Squared Residuals (SSR)**, $n$ is the sample size, and $k$ is the total number of parameters estimated. In a  simple regression, we estimate two parameters, i.e. the slope ($\beta$) and the intercept ($\alpha$), so $k=2$. The term $n - k$ is the **degrees of freedom**. Using $n-k$ instead of $n$ ensures that $E[\hat{\sigma}^2] = \sigma^2$, making it an unbiased estimator.
+
+**The Standard Error of the Regression (SER)**
+
+The square root of $\hat{\sigma}^2$ is called the **Standard Error of the Regression (SER)** or the residual standard error. It is an estimate of the standard deviation of the error term $u_i$ and represents the average distance that the observed values fall from the regression line—the typical size of a residual.
+
+$$SER = \sqrt{\hat{\sigma}^2} = \sqrt{\frac{SSR}{n - k}}$$
+
+**The Estimated Variance and Standard Error of $\hat{\beta}$**
+
+By plugging the estimate $\hat{\sigma}^2$ into the true variance formula, we obtain the **estimated variance** of the OLS estimator
+
+$$\widehat{Var}(\hat{\beta}) = \frac{\hat{\sigma}^2}{\sum_{i=1}^n (X_i - \bar{X})^2}$$
+
+The **standard error of $\hat{\beta}$** is simply the square root of this estimated variance. It is the estimated standard deviation of the sampling distribution of $\hat{\beta}$.
+
+$$SE(\hat{\beta}) = \sqrt{\widehat{Var}(\hat{\beta})} = \frac{\hat{\sigma}}{\sqrt{\sum_{i=1}^n (X_i - \bar{X})^2}} \quad \text{or} \quad \hat{\sigma} \sqrt{\frac{1}{\sum_{i=1}^n x^2}}$$
+
+This final formula is the most intuitive: the standard error of the coefficient depends directly on the "noise" in the model ($SER$) and inversely on the amount of information in the explanatory variable, i.e. $\sqrt{\sum_{i=1}^n x^2}$.
+
+### What Drives the Standard Error?
+
+The formula for $SE(\hat{\beta})$ provides deep intuition about what makes an estimate precise: 1. **Spread of the error term (**$\hat{\sigma}$): A larger error variance (a noisier relationship, where points are scattered farther from the line) leads to a **larger standard error** and less precise estimates. 2. **Sample size (**$n$): A larger sample size $n$ will (all else equal) make $\hat{\sigma}$ smaller and the denominator larger, leading to a **smaller standard error** and more precise estimates. 3. **Spread of the regressor** $X$ ($SST_X$): More variation in the independent variable $X$ provides more "information" and leads to a **smaller standard error**. If all values of $X$ are clustered closely together, it is harder to pin down the slope of the relationship.
+
+The standard error for the intercept $\hat{\alpha}$ has a more complex formula but is driven by the same factors: $n$, $\hat{\sigma}$, and the spread of $X$.
+
+### Calculating Standard Errors
+
+Usually, you don't need to calculate these by hand. In R, the `summary()` function computes them automatically using the formulas above.
+
+```{r}
+# Re-running the model from earlier for clarity
+model <- lm(mpg ~ wt, data = mtcars)
+
+# The summary output shows the coefficients and their standard errors
+summary_model <- summary(model)
+print(summary_model)
+```
+
+In the output, the `Std. Error` column next to the `(Intercept)` and `wt` estimates contains the calculated $SE(\hat{\alpha})$ and $SE(\hat{\beta})$. These values are used to compute the t-statistics and p-values for hypothesis testing, allowing us to assess the statistical significance of our estimates.
+
+## Hypothesis Testing and Standard Errors
+
+Our estimates $\hat{\alpha}$ and $\hat{\beta}$ are random—they would change if we collected a new sample. To conduct statistical inference, we need to estimate their variability, which is captured by the **Standard Error (S.E.)**.
+
+The most common hypothesis test in regression is whether the slope coefficient $\beta$ is statistically different from zero.
+
+$H_0: \beta = 0$ (There is *no* relationship between $X$ and $Y$) vs. $H_1: \beta \neq 0$ (There *is* a relationship between $X$ and $Y$)
+
+We use a **t-test** to evaluate this hypothesis, where the  test statistic is
+
+$$TS = \frac{\hat{\beta} - 0}{SE(\hat{\beta})}$$
+
+You can reject the null hypothesis ($H_0$) if
+
+1. **\|t-statistic\| \> critical value** (approx. "2" for a 5% significance level)
+
+2. **p-value \< significance level** (e.g., $\alpha = 0.05$). The p-value is the probability of observing a result as extreme as the one in your sample if the null hypothesis were true.
+
+3. If the **95% confidence interval** $[\hat{\beta} - 1.96 \cdot SE(\hat{\beta}), \hat{\beta} + 1.96 \cdot SE(\hat{\beta})]$ does not contain zero.
+
+In our `mtcars` output
+
+- The t-statistic for `wt` is -9.559.
+
+- The p-value is `1.29e-10` (effectively 0), which is much less than 0.05.
+
+- The 95% confidence interval can be calculated with `confint(model)` and will not contain zero.
+
+**Conclusion:** We strongly reject the null hypothesis. Hence there is a statistically significant relationship between car weight and fuel efficiency at the 5% level.
+
+## Measures of Fit: How Well Does the Line Explain the Data?
+
+Once we have our regression line, we want to know how well it fits the data. We decompose the total variation in $Y$:
+
+-   **SST (Total Sum of Squares):** Total variation in $Y$ around its mean. $SST = \sum (Y_i - \bar{Y})^2$
+-   **SSE (Explained Sum of Squares):** Variation in $Y$ explained by the model. $SSE = \sum (\hat{Y}_i - \bar{Y})^2$
+-   **SSR (Residual Sum of Squares):** Variation in $Y$ *not* explained by the model. $SSR = \sum \hat{u}_i^2$
+
+They are related by the identity: $SST = SSE + SSR$.
+
+### The R-Squared ($R^2$)
+
+The most common measure of fit is the **R-squared** statistic. It represents the **fraction of the sample variation in** $Y$ that is explained by $X$.
+
+$$R^2 = \frac{SSE}{SST} = 1 - \frac{SSR}{SST}$$
+
+-   $R^2$ always lies between 0 and 1.
+-   An $R^2$ of 0 means $X$ explains none of the variation in $Y$.
+-   An $R^2$ of 1 means $X$ explains all of the variation in $Y$.
+-   In a **simple** regression, $R^2$ is also the square of the correlation coefficient between $X$ and $Y$, that is,$R^2 = r_{xy}^2$.
+
+In our `mtcars` example, the $R^2$ is 0.7528. This means that about 75% of the variation in miles per gallon is explained by the weight of the car.
+
