@@ -159,23 +159,23 @@ The OLS estimators $\hat{\alpha}$ and $\hat{\beta}$ are random variables—their
 
 To conduct statistical inference on our OLS estimate $\hat{\beta}$ (e.g., to build confidence intervals or test hypotheses), we need to estimate its sampling variability. This variability is measured by its **variance** or, more commonly, its **standard error**.
 
-**The True Variance of $\hat{\beta}$**
+**The True Variance of** $\hat{\beta}$
 
 Under the classical linear model assumptions, the true variance of the OLS slope estimator in a simple regression is given by:
 
 $$Var(\hat{\beta}) = \frac{\sigma^2}{\sum_{i=1}^n (X_i - \bar{X})^2}$$
 
-where,  $\sigma^2 = Var(u_i)$ is the **variance of the unobserved error term**, and $\sum_{i=1}^n (X_i - \bar{X})^2$ is the total variation of the independent variable $X$ around its mean.
+where, $\sigma^2 = Var(u_i)$ is the **variance of the unobserved error term**, and $\sum_{i=1}^n (X_i - \bar{X})^2$ is the total variation of the independent variable $X$ around its mean.
 
 This formula shows that the precision of $\hat{\beta}$ improves (its variance decreases) when either (1) the error variance ($\sigma^2$) is smaller (the data points are tighter around the line, and/or (2) the spread of the explanatory variable $X$ is larger (there is more information in the data).
 
-**Estimating the Unknown Error Variance ($\sigma^2$)**
+**Estimating the Unknown Error Variance (**$\sigma^2$)
 
 Since the error variance $\sigma^2$ is unknown, we must estimate it using the sample data. An unbiased estimator for $\sigma^2$ is
 
 $$\hat{\sigma}^2 = \frac{1}{n - k} \sum_{i=1}^n \hat{u}_i^2   \quad \text{or}   \quad \frac{SSR}{n - k}$$
 
-where, $SSR = \sum_{i=1}^n \hat{u}_i^2$ is the **Sum of Squared Residuals (SSR)**, $n$ is the sample size, and $k$ is the total number of parameters estimated. In a  simple regression, we estimate two parameters, i.e. the slope ($\beta$) and the intercept ($\alpha$), so $k=2$. The term $n - k$ is the **degrees of freedom**. Using $n-k$ instead of $n$ ensures that $E[\hat{\sigma}^2] = \sigma^2$, making it an unbiased estimator.
+where, $SSR = \sum_{i=1}^n \hat{u}_i^2$ is the **Sum of Squared Residuals (SSR)**, $n$ is the sample size, and $k$ is the total number of parameters estimated. In a simple regression, we estimate two parameters, i.e. the slope ($\beta$) and the intercept ($\alpha$), so $k=2$. The term $n - k$ is the **degrees of freedom**. Using $n-k$ instead of $n$ ensures that $E[\hat{\sigma}^2] = \sigma^2$, making it an unbiased estimator.
 
 **The Standard Error of the Regression (SER)**
 
@@ -183,13 +183,13 @@ The square root of $\hat{\sigma}^2$ is called the **Standard Error of the Regres
 
 $$SER = \sqrt{\hat{\sigma}^2} = \sqrt{\frac{SSR}{n - k}}$$
 
-**The Estimated Variance and Standard Error of $\hat{\beta}$**
+**The Estimated Variance and Standard Error of** $\hat{\beta}$
 
 By plugging the estimate $\hat{\sigma}^2$ into the true variance formula, we obtain the **estimated variance** of the OLS estimator
 
 $$\widehat{Var}(\hat{\beta}) = \frac{\hat{\sigma}^2}{\sum_{i=1}^n (X_i - \bar{X})^2}$$
 
-The **standard error of $\hat{\beta}$** is simply the square root of this estimated variance. It is the estimated standard deviation of the sampling distribution of $\hat{\beta}$.
+The **standard error of** $\hat{\beta}$ is simply the square root of this estimated variance. It is the estimated standard deviation of the sampling distribution of $\hat{\beta}$.
 
 $$SE(\hat{\beta}) = \sqrt{\widehat{Var}(\hat{\beta})} = \frac{\hat{\sigma}}{\sqrt{\sum_{i=1}^n (X_i - \bar{X})^2}} \quad \text{or} \quad \hat{\sigma} \sqrt{\frac{1}{\sum_{i=1}^n x^2}}$$
 
@@ -224,25 +224,25 @@ The most common hypothesis test in regression is whether the slope coefficient $
 
 $H_0: \beta = 0$ (There is *no* relationship between $X$ and $Y$) vs. $H_1: \beta \neq 0$ (There *is* a relationship between $X$ and $Y$)
 
-We use a **t-test** to evaluate this hypothesis, where the  test statistic is
+We use a **t-test** to evaluate this hypothesis, where the test statistic is
 
 $$TS = \frac{\hat{\beta} - 0}{SE(\hat{\beta})}$$
 
 You can reject the null hypothesis ($H_0$) if
 
-1. **\|t-statistic\| \> critical value** (approx. "2" for a 5% significance level)
+1.  **\|t-statistic\| \> critical value** (approx. "2" for a 5% significance level)
 
-2. **p-value \< significance level** (e.g., $\alpha = 0.05$). The p-value is the probability of observing a result as extreme as the one in your sample if the null hypothesis were true.
+2.  **p-value \< significance level** (e.g., $\alpha = 0.05$). The p-value is the probability of observing a result as extreme as the one in your sample if the null hypothesis were true.
 
-3. If the **95% confidence interval** $[\hat{\beta} - 1.96 \cdot SE(\hat{\beta}), \hat{\beta} + 1.96 \cdot SE(\hat{\beta})]$ does not contain zero.
+3.  If the **95% confidence interval** $[\hat{\beta} - 1.96 \cdot SE(\hat{\beta}), \hat{\beta} + 1.96 \cdot SE(\hat{\beta})]$ does not contain zero.
 
 In our `mtcars` output
 
-- The t-statistic for `wt` is -9.559.
+-   The t-statistic for `wt` is -9.559.
 
-- The p-value is `1.29e-10` (effectively 0), which is much less than 0.05.
+-   The p-value is `1.29e-10` (effectively 0), which is much less than 0.05.
 
-- The 95% confidence interval can be calculated with `confint(model)` and will not contain zero.
+-   The 95% confidence interval can be calculated with `confint(model)` and will not contain zero.
 
 **Conclusion:** We strongly reject the null hypothesis. Hence there is a statistically significant relationship between car weight and fuel efficiency at the 5% level.
 
@@ -268,4 +268,3 @@ $$R^2 = \frac{SSE}{SST} = 1 - \frac{SSR}{SST}$$
 -   In a **simple** regression, $R^2$ is also the square of the correlation coefficient between $X$ and $Y$, that is,$R^2 = r_{xy}^2$.
 
 In our `mtcars` example, the $R^2$ is 0.7528. This means that about 75% of the variation in miles per gallon is explained by the weight of the car.
-

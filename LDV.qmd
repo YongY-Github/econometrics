@@ -1,0 +1,155 @@
+# Limited Dependent Variable Models and Maximum Likelihood Estimation
+
+When the dependent variable (Y) is limited in its range (e.g., binary, count data, or censored), Ordinary Least Squares (OLS) is often inappropriate. This chapter introduces Maximum Likelihood Estimation (MLE) and the family of models designed for such limited dependent variables.
+
+## Maximum Likelihood Estimation (MLE)
+
+OLS is not the only method for estimating parameters. MLE is another powerful and widely used estimator.
+
+-   **Concept:** Maximum Likelihood Estimation finds the parameter values that make the observed sample data **most probable** (i.e., maximize the likelihood function).
+-   **Intuition:** Given a statistical model (e.g., a normal distribution) and a sample of data, MLE answers: "What values of the model's parameters (mean, variance) would most likely have generated this data?"
+-   **Comparison:** While OLS minimizes the sum of squared residuals, MLE maximizes the likelihood function. For the classical linear model with normal errors, OLS and MLE produce identical estimates.
+
+Let's explore some important LDV models, i.e. models in which dependent variable can assume a limited form, making linear regression unsuitable.
+
+## Binary Dependent Variables (Logit and Probit)
+
+When the outcome is binary, e.g., $Y_i = \{1, 0\}$ (e.g., 1=owns a car, 0=does not own a car).
+
+### The Linear Probability Model (LPM) and its Problems
+
+A naive approach is to use OLS on the binary outcome: $Y_i = \beta_1 + \beta_2 X_{2i} + u_i$.
+- The fitted values, $\hat{Y}_i$, can be interpreted as the probability that $Y_i=1$.
+- **Problems:**
+    1.  **Probabilities outside [0,1]:** OLS can predict probabilities less than 0 or greater than 1.
+    2.  **Non-normal errors:** The error term $u_i$ can only take two values, violating the normality assumption.
+    3.  **Heteroskedasticity:** The variance of the error term is not constant.
+    4.  **Low R²:** R-squared is often very low for cross-sectional binary outcomes, which is not a good measure of fit.
+
+### The Latent Variable Framework
+
+A better approach is to model a continuous, unobserved (latent) variable $Y_i^*$ that determines the observed outcome.
+
+- **Latent Model:** $Y_i^* = \beta_1 + \beta_2 X_{2i} + u_i$
+- **Observation Rule:**
+    $Y_i = \begin{cases} 1 & \text{if } Y_i^* \geq 0 \\ 0 & \text{if } Y_i^* < 0 \end{cases}$
+
+The probability of observing $Y_i=1$ is:
+
+$$
+\begin{aligned}
+P(Y_i = 1) &= P(Y_i^* \geq 0) \\
+&= P(\beta_1 + \beta_2 X_{2i} + u_i \geq 0) \\
+&= P(u_i \geq -\mathbf{X}_i'\boldsymbol{\beta}) \\
+&= 1 - F(-\mathbf{X}_i'\boldsymbol{\beta}) = F(\mathbf{X}_i'\boldsymbol{\beta})
+\end{aligned}
+$$
+
+where $F(\cdot)$ is a cumulative distribution function (CDF). The last equality holds if the distribution of $u_i$ is symmetric around zero (like the normal or logistic).
+
+### Logit and Probit Models
+
+The choice of $F(\cdot)$ gives rise to different models:
+
+1.  **Probit Model:** Uses the **standard normal CDF**, denoted $\Phi(\cdot)$.
+    $$
+    P(Y_i = 1) = \Phi(\mathbf{X}_i'\boldsymbol{\beta})
+    $$
+
+2.  **Logit Model:** Uses the **logistic CDF**.
+    $$
+    P(Y_i = 1) = \Lambda(\mathbf{X}_i'\boldsymbol{\beta}) = \frac{\exp(\mathbf{X}_i'\boldsymbol{\beta})}{1 + \exp(\mathbf{X}_i'\boldsymbol{\beta})}
+    $$
+
+The parameters $\boldsymbol{\beta}$ are estimated by **Maximum Likelihood Estimation (MLE)**.
+
+#### Interpretation of Coefficients
+
+Unlike OLS, the coefficients $\beta_k$ do not represent a constant marginal effect. The marginal effect of a change in $X_k$ on the probability $P(Y=1)$ depends on the values of all explanatory variables.
+
+-   **Probit Marginal Effect:**
+    $$
+    \frac{\partial P(Y_i=1)}{\partial X_k} = \phi(\mathbf{X}_i'\boldsymbol{\beta}) \beta_k
+    $$
+    where $\phi(\cdot)$ is the standard normal probability density function (PDF).
+
+-   **Logit Marginal Effect:**
+    $$
+    \frac{\partial P(Y_i=1)}{\partial X_k} = \Lambda(\mathbf{X}_i'\boldsymbol{\beta})[1-\Lambda(\mathbf{X}_i'\boldsymbol{\beta})] \beta_k
+    $$
+
+-   **Odds Ratio (Logit):** The logit model can also be interpreted in terms of odds.
+    -   The **odds** in favor of $Y=1$ are $\frac{P(Y=1)}{P(Y=0)} = \exp(\mathbf{X}_i'\boldsymbol{\beta})$.
+    -   A one-unit change in $X_k$ **multiplies** the odds by $\exp(\beta_k)$, holding all else constant.
+
+**Example in R:**
+```{r}
+#| warning: false
+#| message: false
+# Create a binary variable: 1 if mpg > 20, 0 otherwise
+mtcars$high_mpg <- ifelse(mtcars$mpg > 20, 1, 0)
+
+# Estimate a Logit Model
+logit_model <- glm(high_mpg ~ wt + hp, family = binomial(link = "logit"), data = mtcars)
+summary(logit_model)
+
+# Estimate a Probit Model
+probit_model <- glm(high_mpg ~ wt + hp, family = binomial(link = "probit"), data = mtcars)
+summary(probit_model)
+
+# Calculate average marginal effects for the logit model
+# install.packages("margins")
+library(margins)
+margins_logit <- margins(logit_model)
+summary(margins_logit)
+```
+
+## Multinomial and Ordered Models
+
+-   **Multinomial Logit/Probit:** Used when the dependent variable has more than two categories **without a natural ordering** (e.g., choice of transport: walk, car, BTS).
+-   **Ordered Logit/Probit:** Used when the categories have a natural order (e.g., exam grades: A, B, C, D). Both are estimated via MLE.
+
+## Censored and Truncated Regression (Tobit Model)
+
+The Tobit model is used when the dependent variable is **censored**. For example, a variable can be zero for a substantial fraction of the observations but positive for the rest (e.g., hours worked, where some people work 0 hours).
+
+-   **Latent Model:** $Y_i^* = \mathbf{X}_i'\boldsymbol{\beta} + u_i$
+-   **Observed Rule:** $Y_i = \begin{cases} Y_i^* & \text{if } Y_i^* > 0 \\ 0 & \text{if } Y_i^* \leq 0 \end{cases}$
+
+Using OLS on the censored data leads to biased estimates. The Tobit model uses MLE to estimate the parameters, which accounts for both the probability of being censored and the value of the uncensored observations.
+
+**Example in R:**
+```{r}
+#| warning: false
+#| message: false
+# install.packages("AER")
+library(AER)
+# Example using a simulated dataset. 'hours' is censored at 0.
+# tobit_model <- tobit(hours ~ age + education, data = dataset)
+```
+
+## Count Data Models (Poisson Regression)
+
+When the dependent variable is a count (e.g., number of patents, number of doctor visits), a Poisson regression model is often appropriate.
+
+-   The Poisson probability density function is $P(Y=y) = \frac{e^{-\mu} \mu^y}{y!}$, where $E(Y) = Var(Y) = \mu$.
+-   We model the mean $\mu_i$ as $\mu_i = E(Y_i | \mathbf{X}_i) = \exp(\mathbf{X}_i'\boldsymbol{\beta})$. This ensures the mean is always positive.
+-   Parameters are estimated by MLE.
+
+**Example in R:**
+```{r}
+#| warning: false
+#| message: false
+# Example: Modeling number of awards (a count) in a dataset
+# poisson_model <- glm(awards ~ math + prog, family = poisson, data = data)
+```
+
+## Sample Selection Models (Heckman's Heckit)
+
+Sample selection bias occurs when the sample is not randomly selected from the population. For example, estimating wages only for people who are employed (a non-random subset).
+
+-   The Heckit model is a two-step procedure:
+    1.  **Selection Equation (Probit):** Model the probability of being included in the sample.
+    2.  **Outcome Equation:** Model the outcome of interest, but include a correction term called the **Inverse Mills Ratio ($\lambda$)** estimated from the first step to control for selection bias.
+-   This corrects the bias that would occur if the second step were run on the selected sample alone.
+

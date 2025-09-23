@@ -19,5 +19,20 @@
   },
   "simple.qmd": {
     "simple.html": "ef57d796"
+  },
+  "violationofassumptions.qmd": {
+    "violationofassumptions.html": "471a522e"
+  },
+  "dummynonlinear.qmd": {
+    "dummynonlinear.html": "a9327e84"
+  },
+  "logitprobit.qmd": {
+    "logitprobit.html": "ca1c67b8"
+  },
+  "panel.qmd": {
+    "panel.html": "ee503510"
+  },
+  "LDV.qmd": {
+    "LDV.html": "5f174fc2"
   }
 }

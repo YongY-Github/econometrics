@@ -195,6 +195,24 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./violationofassumptions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Violation of CLM Assumptions</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./dummynonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dummy Variable Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./logitprobit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Logit</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -428,22 +446,22 @@ F-statistic: 91.38 on 1 and 30 DF,  p-value: 1.294e-10</code></pre>
 <section id="the-formula-for-the-standard-error-of-hatbeta" class="level3" data-number="1.6.1">
 <h3 data-number="1.6.1" class="anchored" data-anchor-id="the-formula-for-the-standard-error-of-hatbeta"><span class="header-section-number">1.6.1</span> The Formula for the Standard Error of <span class="math inline">\(\hat{\beta}\)</span></h3>
 <p>To conduct statistical inference on our OLS estimate <span class="math inline">\(\hat{\beta}\)</span> (e.g., to build confidence intervals or test hypotheses), we need to estimate its sampling variability. This variability is measured by its <strong>variance</strong> or, more commonly, its <strong>standard error</strong>.</p>
-<p><strong>The True Variance of <span class="math inline">\(\hat{\beta}\)</span></strong></p>
+<p><strong>The True Variance of</strong> <span class="math inline">\(\hat{\beta}\)</span></p>
 <p>Under the classical linear model assumptions, the true variance of the OLS slope estimator in a simple regression is given by:</p>
 <p><span class="math display">\[Var(\hat{\beta}) = \frac{\sigma^2}{\sum_{i=1}^n (X_i - \bar{X})^2}\]</span></p>
 <p>where, <span class="math inline">\(\sigma^2 = Var(u_i)\)</span> is the <strong>variance of the unobserved error term</strong>, and <span class="math inline">\(\sum_{i=1}^n (X_i - \bar{X})^2\)</span> is the total variation of the independent variable <span class="math inline">\(X\)</span> around its mean.</p>
 <p>This formula shows that the precision of <span class="math inline">\(\hat{\beta}\)</span> improves (its variance decreases) when either (1) the error variance (<span class="math inline">\(\sigma^2\)</span>) is smaller (the data points are tighter around the line, and/or (2) the spread of the explanatory variable <span class="math inline">\(X\)</span> is larger (there is more information in the data).</p>
-<p><strong>Estimating the Unknown Error Variance (<span class="math inline">\(\sigma^2\)</span>)</strong></p>
+<p><strong>Estimating the Unknown Error Variance (</strong><span class="math inline">\(\sigma^2\)</span>)</p>
 <p>Since the error variance <span class="math inline">\(\sigma^2\)</span> is unknown, we must estimate it using the sample data. An unbiased estimator for <span class="math inline">\(\sigma^2\)</span> is</p>
 <p><span class="math display">\[\hat{\sigma}^2 = \frac{1}{n - k} \sum_{i=1}^n \hat{u}_i^2   \quad \text{or}   \quad \frac{SSR}{n - k}\]</span></p>
 <p>where, <span class="math inline">\(SSR = \sum_{i=1}^n \hat{u}_i^2\)</span> is the <strong>Sum of Squared Residuals (SSR)</strong>, <span class="math inline">\(n\)</span> is the sample size, and <span class="math inline">\(k\)</span> is the total number of parameters estimated. In a simple regression, we estimate two parameters, i.e.&nbsp;the slope (<span class="math inline">\(\beta\)</span>) and the intercept (<span class="math inline">\(\alpha\)</span>), so <span class="math inline">\(k=2\)</span>. The term <span class="math inline">\(n - k\)</span> is the <strong>degrees of freedom</strong>. Using <span class="math inline">\(n-k\)</span> instead of <span class="math inline">\(n\)</span> ensures that <span class="math inline">\(E[\hat{\sigma}^2] = \sigma^2\)</span>, making it an unbiased estimator.</p>
 <p><strong>The Standard Error of the Regression (SER)</strong></p>
 <p>The square root of <span class="math inline">\(\hat{\sigma}^2\)</span> is called the <strong>Standard Error of the Regression (SER)</strong> or the residual standard error. It is an estimate of the standard deviation of the error term <span class="math inline">\(u_i\)</span> and represents the average distance that the observed values fall from the regression line—the typical size of a residual.</p>
 <p><span class="math display">\[SER = \sqrt{\hat{\sigma}^2} = \sqrt{\frac{SSR}{n - k}}\]</span></p>
-<p><strong>The Estimated Variance and Standard Error of <span class="math inline">\(\hat{\beta}\)</span></strong></p>
+<p><strong>The Estimated Variance and Standard Error of</strong> <span class="math inline">\(\hat{\beta}\)</span></p>
 <p>By plugging the estimate <span class="math inline">\(\hat{\sigma}^2\)</span> into the true variance formula, we obtain the <strong>estimated variance</strong> of the OLS estimator</p>
 <p><span class="math display">\[\widehat{Var}(\hat{\beta}) = \frac{\hat{\sigma}^2}{\sum_{i=1}^n (X_i - \bar{X})^2}\]</span></p>
-<p>The <strong>standard error of <span class="math inline">\(\hat{\beta}\)</span></strong> is simply the square root of this estimated variance. It is the estimated standard deviation of the sampling distribution of <span class="math inline">\(\hat{\beta}\)</span>.</p>
+<p>The <strong>standard error of</strong> <span class="math inline">\(\hat{\beta}\)</span> is simply the square root of this estimated variance. It is the estimated standard deviation of the sampling distribution of <span class="math inline">\(\hat{\beta}\)</span>.</p>
 <p><span class="math display">\[SE(\hat{\beta}) = \sqrt{\widehat{Var}(\hat{\beta})} = \frac{\hat{\sigma}}{\sqrt{\sum_{i=1}^n (X_i - \bar{X})^2}} \quad \text{or} \quad \hat{\sigma} \sqrt{\frac{1}{\sum_{i=1}^n x^2}}\]</span></p>
 <p>This final formula is the most intuitive: the standard error of the coefficient depends directly on the “noise” in the model (<span class="math inline">\(SER\)</span>) and inversely on the amount of information in the explanatory variable, i.e.&nbsp;<span class="math inline">\(\sqrt{\sum_{i=1}^n x^2}\)</span>.</p>
 </section>

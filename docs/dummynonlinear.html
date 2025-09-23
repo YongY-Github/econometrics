@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Applied Econometrics Notes - 2&nbsp; The Classical Linear Model (Gauss-Markov) Assumptions</title>
+<title>Applied Econometrics Notes - 5&nbsp; Non-linear Models and Dummy Variable Regression</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./multiple.html" rel="next">
-<link href="./simple.html" rel="prev">
+<link href="./logitprobit.html" rel="next">
+<link href="./violationofassumptions.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -144,7 +144,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./assumptions.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Classical Linear Model (Gauss-Markov) Assumptions</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./dummynonlinear.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-linear Models and Dummy Variable Regression</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -183,7 +183,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./assumptions.html" class="sidebar-item-text sidebar-link active">
+  <a href="./assumptions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Classical Linear Model (Gauss-Markov) Assumptions</span></span></a>
   </div>
 </li>
@@ -201,14 +201,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./dummynonlinear.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dummy Variable Regression</span></span></a>
+  <a href="./dummynonlinear.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-linear Models and Dummy Variable Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./logitprobit.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Logit</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Limited Dependent Variable Models and Maximum Likelihood Estimation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -227,10 +227,23 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#clrm-assumptions" id="toc-clrm-assumptions" class="nav-link active" data-scroll-target="#clrm-assumptions"><span class="header-section-number">2.1</span> CLRM Assumptions</a></li>
-  <li><a href="#the-gauss-markov-theorem" id="toc-the-gauss-markov-theorem" class="nav-link" data-scroll-target="#the-gauss-markov-theorem"><span class="header-section-number">2.2</span> The Gauss-Markov Theorem</a>
+  <li><a href="#dummy-variables" id="toc-dummy-variables" class="nav-link active" data-scroll-target="#dummy-variables"><span class="header-section-number">5.1</span> Dummy Variables</a></li>
+  <li><a href="#modeling-non-linear-relationships" id="toc-modeling-non-linear-relationships" class="nav-link" data-scroll-target="#modeling-non-linear-relationships"><span class="header-section-number">5.2</span> Modeling Non-Linear Relationships</a>
   <ul class="collapse">
-  <li><a href="#checking-assumptions" id="toc-checking-assumptions" class="nav-link" data-scroll-target="#checking-assumptions"><span class="header-section-number">2.2.1</span> Checking Assumptions</a></li>
+  <li><a href="#polynomial-quadratic-models" id="toc-polynomial-quadratic-models" class="nav-link" data-scroll-target="#polynomial-quadratic-models"><span class="header-section-number">5.2.1</span> Polynomial (Quadratic) Models</a></li>
+  <li><a href="#logarithmic-transformations" id="toc-logarithmic-transformations" class="nav-link" data-scroll-target="#logarithmic-transformations"><span class="header-section-number">5.2.2</span> Logarithmic Transformations</a></li>
+  </ul></li>
+  <li><a href="#interaction-variables" id="toc-interaction-variables" class="nav-link" data-scroll-target="#interaction-variables"><span class="header-section-number">5.3</span> Interaction Variables</a></li>
+  <li><a href="#more-models-using-dummy-variables" id="toc-more-models-using-dummy-variables" class="nav-link" data-scroll-target="#more-models-using-dummy-variables"><span class="header-section-number">5.4</span> More Models using Dummy Variables</a>
+  <ul class="collapse">
+  <li><a href="#different-intercept-same-slope" id="toc-different-intercept-same-slope" class="nav-link" data-scroll-target="#different-intercept-same-slope"><span class="header-section-number">5.4.1</span> Different Intercept, Same Slope</a></li>
+  <li><a href="#different-intercept-different-slope-interaction-with-a-dummy" id="toc-different-intercept-different-slope-interaction-with-a-dummy" class="nav-link" data-scroll-target="#different-intercept-different-slope-interaction-with-a-dummy"><span class="header-section-number">5.4.2</span> Different Intercept, Different Slope (Interaction with a Dummy)</a></li>
+  <li><a href="#same-intercept-different-slope" id="toc-same-intercept-different-slope" class="nav-link" data-scroll-target="#same-intercept-different-slope"><span class="header-section-number">5.4.3</span> Same Intercept, Different Slope</a></li>
+  </ul></li>
+  <li><a href="#model-comparison-and-testing" id="toc-model-comparison-and-testing" class="nav-link" data-scroll-target="#model-comparison-and-testing"><span class="header-section-number">5.5</span> Model Comparison and Testing</a>
+  <ul class="collapse">
+  <li><a href="#f-test-wald-test-for-model-selection" id="toc-f-test-wald-test-for-model-selection" class="nav-link" data-scroll-target="#f-test-wald-test-for-model-selection"><span class="header-section-number">5.5.1</span> F-test (Wald Test) for Model Selection</a></li>
+  <li><a href="#a-note-on-adjusted-r-squared-and-model-comparison" id="toc-a-note-on-adjusted-r-squared-and-model-comparison" class="nav-link" data-scroll-target="#a-note-on-adjusted-r-squared-and-model-comparison"><span class="header-section-number">5.5.2</span> A Note on Adjusted R-squared and Model Comparison</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -240,7 +253,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Classical Linear Model (Gauss-Markov) Assumptions</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-linear Models and Dummy Variable Regression</span></h1>
 </div>
 
 
@@ -257,146 +270,196 @@ window.Quarto = {
 </header>
 
 
-<section id="clrm-assumptions" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="clrm-assumptions"><span class="header-section-number">2.1</span> CLRM Assumptions</h2>
-<p>For the Ordinary Least Squares (OLS) estimators <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span> to have desirable properties (like being the <strong>Best Linear Unbiased Estimators</strong>, or BLUE), a set of assumptions about the population model must hold. These are the core assumptions for <strong>cross-sectional</strong> data analysis.</p>
-<p>Given that the population model is</p>
-<p><span class="math display">\[Y_i = \alpha + \beta X_i + u_i\]</span></p>
-<p><strong>Assumption 1: Conditional Mean Zero</strong></p>
-<p>The error term <span class="math inline">\(u\)</span> has an expected value of zero, <strong>given any value of the explanatory variable</strong> <span class="math inline">\(X\)</span>.</p>
-<p><span class="math display">\[E(u_i | X_i) = 0\]</span></p>
-<ul>
-<li><strong>Interpretation:</strong> This means that the explanatory variable <span class="math inline">\(X\)</span> provides no information about the mean of the unobserved factors. On average, the positive and negative omitted effects cancel out. This is the single most important assumption.</li>
-<li><strong>Implication:</strong> It implies that the model is correctly specified in its functional form and that there are <strong>no omitted variables that are correlated with</strong> <span class="math inline">\(X\)</span>. If this assumption fails, our OLS estimates are <strong>biased</strong>.</li>
-</ul>
-<p><strong>Assumption 2: Homoskedasticity</strong></p>
-<p>The error term <span class="math inline">\(u\)</span> has the same variance given any value of the explanatory variable.</p>
-<p><span class="math display">\[Var(u_i | X_i) = \sigma^2\]</span></p>
-<ul>
-<li><strong>Interpretation:</strong> The variance of the unobserved factors is constant across all values of <span class="math inline">\(X\)</span>. The spread of the data points around the regression line is the same whether <span class="math inline">\(X\)</span> is small or large.</li>
-<li><strong>Implication:</strong> If this holds, OLS standard errors are valid. If it fails, we have <strong>heteroskedasticity</strong>, which means OLS estimates are still unbiased but their standard errors are incorrect. This leads to faulty hypothesis tests and confidence intervals.</li>
-</ul>
-<p><strong>Assumption 3: No Autocorrelation</strong></p>
-<p>The error terms for any two different observations are uncorrelated.</p>
-<p><span class="math display">\[Cov(u_i, u_j | X_i) = 0 \quad \text{for all } i \neq j\]</span></p>
-<ul>
-<li><strong>Interpretation:</strong> The unobserved factors affecting <span class="math inline">\(Y\)</span> for one observation are not correlated with the unobserved factors affecting <span class="math inline">\(Y\)</span> for any other observation. In cross-sectional data, this is usually guaranteed by random sampling. However autocorrelation is usually a concern for <strong>time-series data</strong>.</li>
-<li><strong>Implication:</strong> Like heteroskedasticity, if this assumption fails, OLS estimates remain unbiased but the standard errors are incorrect/inefficient, leading to unreliable inference.</li>
-</ul>
-<p><strong>Assumption 4: Exogeneity</strong></p>
-<p>The explanatory variable <span class="math inline">\(X\)</span> is uncorrelated with the error term <span class="math inline">\(u\)</span>.</p>
-<p><span class="math display">\[Cov(X_i, u_i) = 0\]</span></p>
-<ul>
-<li><strong>Interpretation:</strong> This is essentially a weaker version of Assumption 1. It means <span class="math inline">\(X\)</span> is not influenced by the unobserved factors in <span class="math inline">\(u\)</span>.</li>
-<li><strong>Implication:</strong> This assumption is crucial especially for <strong>causal interpretation</strong>. If <span class="math inline">\(X\)</span> is correlated with <span class="math inline">\(u\)</span>, it could mean an omitted variable that affects <span class="math inline">\(Y\)</span> is also correlated with <span class="math inline">\(X\)</span> (a.k.a confounding, or the “third variable” problem). This is the famous <strong>omitted variable bias</strong>, which causes <span class="math inline">\(\hat{\beta}\)</span> to be biased and inconsistent.</li>
-</ul>
-<p><strong>Assumption 5: No Perfect Multicollinearity</strong></p>
-<ul>
-<li><strong>Interpretation (for simple regression):</strong> In the simple regression model with one explanatory variable, this assumption is automatically satisfied as long as <span class="math inline">\(X\)</span> is not constant.</li>
-<li><strong>Interpretation (for multiple regression):</strong> This assumption becomes critical when we have more than one explanatory variable. It states that no independent variable is a perfect linear combination of another independent variable(s).</li>
-</ul>
+<p>The power of regression analysis extends far beyond straight-line relationships. This chapter explores how to model non-linear patterns and include qualitative information using dummy variables, all within the framework of the linear regression model, which remains <strong>linear in the parameters</strong>.</p>
+<section id="dummy-variables" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="dummy-variables"><span class="header-section-number">5.1</span> Dummy Variables</h2>
+<p>Let’s begin with an short introduction of dummy variables (binary variables), which are often used to include qualitative information (e.g., gender, region, treatment/control) in a regression model. In econometrics, it is common for dummy variables to take the value 0 or 1, i.e.&nbsp;<span class="math inline">\(D_i = \{ 0, 1 \}\)</span>.</p>
+<p><strong>Model Specification:</strong> <span class="math display">\[Y_i = \alpha + \beta D_i + u_i\]</span></p>
+<p><strong>Interpretation:</strong> - The baseline group (<span class="math inline">\(D=0\)</span>) will have a mean or expected value of <span class="math inline">\(\alpha\)</span>. - The other group (<span class="math inline">\(D=1\)</span>), meanwhile, has as its mean or expected value of <span class="math inline">\(\alpha + \beta\)</span> - Hence <span class="math inline">\(\beta\)</span> is the difference-in-means of the outcome variable <span class="math inline">\(Y_i\)</span> between the two groups.</p>
 </section>
-<section id="the-gauss-markov-theorem" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="the-gauss-markov-theorem"><span class="header-section-number">2.2</span> The Gauss-Markov Theorem</h2>
-<p>If Assumptions 1 through 4 hold (and 5 for multiple regression), the OLS estimators <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span> are the <strong>Best Linear Unbiased Estimators (BLUE)</strong>.</p>
+<section id="modeling-non-linear-relationships" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="modeling-non-linear-relationships"><span class="header-section-number">5.2</span> Modeling Non-Linear Relationships</h2>
+<p>While the relationship between variables may be non-linear, we can often transform the variables so that the model is <strong>linear in the parameters</strong> (<span class="math inline">\(\beta\)</span>s), allowing us to use OLS.</p>
+<section id="polynomial-quadratic-models" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="polynomial-quadratic-models"><span class="header-section-number">5.2.1</span> Polynomial (Quadratic) Models</h3>
+<p>A quadratic model is used to capture curvilinear relationships, such as diminishing or increasing returns.</p>
+<p><strong>Model Specification:</strong> <span class="math display">\[Y_i = \alpha + \beta_1 X_i + \beta_2 X_i^2 + u_i\]</span></p>
 <ul>
-<li><strong>Linear:</strong> They are linear functions of the data.</li>
-<li><strong>Unbiased:</strong> On average, across repeated samples, they equal the true population parameters, i.e.&nbsp;<span class="math inline">\(E[\hat{\beta}] = \beta\)</span>.</li>
-<li><strong>Best:</strong> They have the smallest variance among all other linear unbiased estimators. This means they are the most precise (efficient).</li>
+<li>The model is linear in the parameters (<span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\beta_2\)</span>), so we can run OLS.</li>
+<li>We create a new variable <span class="math inline">\(X_i^2\)</span> and include it as a separate regressor.</li>
 </ul>
-<p>This theorem is why OLS is the workhorse of econometrics—under these conditions, no other linear estimator is better.</p>
-<section id="checking-assumptions" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="checking-assumptions"><span class="header-section-number">2.2.1</span> Checking Assumptions</h3>
-<p>While a full diagnostic check will be done in later chapters, we’ll start by checking for non-constant variances, or heteroskedasticty.</p>
-<section id="testing-for-heteroskedasticity" class="level4" data-number="2.2.1.1">
-<h4 data-number="2.2.1.1" class="anchored" data-anchor-id="testing-for-heteroskedasticity"><span class="header-section-number">2.2.1.1</span> Testing for Heteroskedasticity</h4>
-<p>Here is a quick example of how to generate residual plots whch can be useful to visually check for homoskedasticity and mean zero.</p>
+<p><strong>Interpretation:</strong> - The slope is no longer constant. The marginal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> is given by the derivative: <span class="math inline">\(\frac{\partial Y}{\partial X} = \beta_1 + 2\beta_2 X\)</span>. - If <span class="math inline">\(\beta_2 &lt; 0\)</span>, the relationship is concave (inverted U-shape). If <span class="math inline">\(\beta_2 &gt; 0\)</span>, it is convex (U-shape).</p>
+<p><strong>Example in R:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> mtcars)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a dataframe of fitted values and residuals</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>diagnostic_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">fitted =</span> <span class="fu">fitted</span>(model),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">residuals =</span> <span class="fu">resid</span>(model)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot residuals vs. fitted values</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diagnostic_data, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residuals)) <span class="sc">+</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Residuals vs. Fitted Values"</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Fitted Values (Y_hat)"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Residuals (u_hat)"</span>) <span class="sc">+</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="assumptions_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p><strong>Interpreting the plot:</strong> We look for a random scatter of points around the red zero line. The absence of a clear pattern (e.g., a curve or a funnel) is a good sign that Assumptions 1 and 2 are plausible. In this <code>mtcars</code> example, there might be a slight pattern, suggesting a potential minor violation worth investigating further.</p>
-<p>A more formal test is the <strong>White test</strong>, a general and powerful test for heteroskedasticity. It does not assume a specific form for the heteroskedasticity (e.g., that variance increases with X). The test works by regressing the squared residuals from the original model on the original explanatory variables, their squares, and their cross-products.</p>
-<p>The null and alternative hypotheses are:</p>
-<p><span class="math inline">\(H_0\)</span>: Homoskedasticity exists (the error variance is constant).</p>
-<p><span class="math inline">\(H_1\)</span>: Heteroskedasticity exists (the error variance is not constant).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("lmtest") # Uncomment and run if needed</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform the White test for the simple model mpg ~ wt</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(model, <span class="sc">~</span> wt <span class="sc">+</span> <span class="fu">I</span>(wt<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate a quadratic model for mpg vs. weight</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>mtcars<span class="sc">$</span>wt_sq <span class="ot">&lt;-</span> mtcars<span class="sc">$</span>wt<span class="sc">^</span><span class="dv">2</span> <span class="co"># Create the squared term</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>quad_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">+</span> wt_sq, <span class="at">data =</span> mtcars)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(quad_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-    studentized Breusch-Pagan test
+Call:
+lm(formula = mpg ~ wt + wt_sq, data = mtcars)
 
-data:  model
-BP = 1.3663, df = 2, p-value = 0.505</code></pre>
+Residuals:
+   Min     1Q Median     3Q    Max 
+-3.483 -1.998 -0.773  1.462  6.238 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  49.9308     4.2113  11.856 1.21e-12 ***
+wt          -13.3803     2.5140  -5.322 1.04e-05 ***
+wt_sq         1.1711     0.3594   3.258  0.00286 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.651 on 29 degrees of freedom
+Multiple R-squared:  0.8191,    Adjusted R-squared:  0.8066 
+F-statistic: 65.64 on 2 and 29 DF,  p-value: 1.715e-11</code></pre>
 </div>
 </div>
-<p>The <code>bptest()</code> output shows a BP test statistic and a p-value. A p-value &lt; 0.05 means you reject the null hypothesis of homoskedasticity. In the <code>mtcars</code> example above, we fail to reject the null hypothesis, suggesting that we have may not have heteroskedasticty.</p>
-<p>Alternatively:</p>
+</section>
+<section id="logarithmic-transformations" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="logarithmic-transformations"><span class="header-section-number">5.2.2</span> Logarithmic Transformations</h3>
+<p>Logarithms are powerful tools for modeling percentage changes and non-constant elasticities. There are three common forms.</p>
+<section id="linear-log-model" class="level4" data-number="5.2.2.1">
+<h4 data-number="5.2.2.1" class="anchored" data-anchor-id="linear-log-model"><span class="header-section-number">5.2.2.1</span> 1. Linear-Log Model</h4>
+<p><strong>Model Specification:</strong> <span class="math display">\[Y_i = \alpha + \beta_1 \ln(X_i) + u_i\]</span></p>
+<p><strong>Interpretation:</strong> - A <strong>1% increase in X</strong> is associated with a <strong><span class="math inline">\(\beta_1 / 100\)</span> unit change in Y</strong>. - <span class="math inline">\(\beta_1\)</span> represents the change in <span class="math inline">\(Y\)</span> for a 1% change in <span class="math inline">\(X\)</span>.</p>
+</section>
+<section id="log-linear-model" class="level4" data-number="5.2.2.2">
+<h4 data-number="5.2.2.2" class="anchored" data-anchor-id="log-linear-model"><span class="header-section-number">5.2.2.2</span> 2. Log-Linear Model</h4>
+<p><strong>Model Specification:</strong> <span class="math display">\[\ln(Y_i) = \alpha + \beta_1 X_i + u_i\]</span></p>
+<p><strong>Interpretation:</strong> - A <strong>one-unit increase in X</strong> is associated with a <strong><span class="math inline">\((\beta_1 \times 100)\)</span>% change in Y</strong> (approximately, for small <span class="math inline">\(\beta_1\)</span>). - Exact percentage change is <span class="math inline">\(100 \times [\exp(\beta_1) - 1]\%\)</span>.</p>
+</section>
+<section id="log-log-model" class="level4" data-number="5.2.2.3">
+<h4 data-number="5.2.2.3" class="anchored" data-anchor-id="log-log-model"><span class="header-section-number">5.2.2.3</span> 3. Log-Log Model</h4>
+<p><strong>Model Specification:</strong> <span class="math display">\[\ln(Y_i) = \alpha + \beta_1 \ln(X_i) + u_i\]</span></p>
+<p><strong>Interpretation:</strong> - <span class="math inline">\(\beta_1\)</span> is the <strong>elasticity</strong> of <span class="math inline">\(Y\)</span> with respect to <span class="math inline">\(X\)</span>. - A <strong>1% increase in X</strong> is associated with a <strong><span class="math inline">\(\beta_1\)</span>% change in Y</strong>.</p>
+<p><strong>Example in R:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Estimate the original simple regression model</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>simple_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> mtcars)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Obtain the squared residuals from the model</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>squared_residuals <span class="ot">&lt;-</span> <span class="fu">resid</span>(simple_model)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Perform the "auxiliary regression" for the White test:</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Regress the squared residuals on the original regressor (wt) and its square (wt²).</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>white_aux_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(squared_residuals <span class="sc">~</span> wt <span class="sc">+</span> <span class="fu">I</span>(wt<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> mtcars)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Conduct an F-test on the auxiliary model.</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># The null hypothesis is that the coefficients on 'wt' and 'I(wt^2)' are zero.</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("car") # Uncomment and run if you don't have the 'car' package</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="fu">linearHypothesis</span>(white_aux_model, <span class="fu">c</span>(<span class="st">"wt=0"</span>, <span class="st">"I(wt^2)=0"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Log-Log model example: elasticity of mpg with respect to weight</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>log_log_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mpg) <span class="sc">~</span> <span class="fu">log</span>(wt), <span class="at">data =</span> mtcars)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(log_log_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Linear hypothesis test:
-wt = 0
-I(wt^2) = 0
+Call:
+lm(formula = log(mpg) ~ log(wt), data = mtcars)
 
-Model 1: restricted model
-Model 2: squared_residuals ~ wt + I(wt^2)
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.18141 -0.10681 -0.02125  0.08109  0.26930 
 
-  Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
-1     31 4542.5                           
-2     29 4348.6  2    193.95 0.6467 0.5312</code></pre>
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  3.90181    0.08790   44.39  &lt; 2e-16 ***
+log(wt)     -0.84182    0.07549  -11.15 3.41e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1334 on 30 degrees of freedom
+Multiple R-squared:  0.8056,    Adjusted R-squared:  0.7992 
+F-statistic: 124.4 on 1 and 30 DF,  p-value: 3.406e-12</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The coefficient on log(wt) is the elasticity.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We look at the F-statistic and its p-value (Pr(&gt;F)). A p-value &lt; 0.05 provides evidence to reject the null hypothesis (<span class="math inline">\(H_0\)</span>) of homoskedasticity, thereby suggesting the error variance is not constant and depends on weight (wt). Here, again Pr(&gt;F) is 0.5312, hence we fail to reject the null.</p>
-
-
 </section>
+</section>
+</section>
+<section id="interaction-variables" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="interaction-variables"><span class="header-section-number">5.3</span> Interaction Variables</h2>
+<p>Interaction terms allow the effect of one independent variable (<span class="math inline">\(X_1\)</span>) on the dependent variable (<span class="math inline">\(Y\)</span>) to depend on the level of another independent variable (<span class="math inline">\(X_2\)</span>).</p>
+<p><strong>Model Specification:</strong> <span class="math display">\[Y_i = \alpha + \beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 (X_{1i} \times X_{2i}) + u_i\]</span></p>
+<p><strong>Interpretation:</strong> - The marginal effect of <span class="math inline">\(X_1\)</span> on <span class="math inline">\(Y\)</span> is: <span class="math inline">\(\frac{\partial Y}{\partial X_1} = \beta_1 + \beta_3 X_2\)</span>. - This effect depends on the value of <span class="math inline">\(X_2\)</span>. - Similarly, the marginal effect of <span class="math inline">\(X_2\)</span> is <span class="math inline">\(\beta_2 + \beta_3 X_1\)</span>.</p>
+<p><strong>Example in R:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Does the effect of weight (wt) on mpg depend on horsepower (hp)?</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>interaction_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">+</span> hp <span class="sc">+</span> wt<span class="sc">:</span>hp, <span class="at">data =</span> mtcars)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Equivalently: mpg ~ wt * hp</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(interaction_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = mpg ~ wt + hp + wt:hp, data = mtcars)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.0632 -1.6491 -0.7362  1.4211  4.5513 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 49.80842    3.60516  13.816 5.01e-14 ***
+wt          -8.21662    1.26971  -6.471 5.20e-07 ***
+hp          -0.12010    0.02470  -4.863 4.04e-05 ***
+wt:hp        0.02785    0.00742   3.753 0.000811 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.153 on 28 degrees of freedom
+Multiple R-squared:  0.8848,    Adjusted R-squared:  0.8724 
+F-statistic: 71.66 on 3 and 28 DF,  p-value: 2.981e-13</code></pre>
+</div>
+</div>
+</section>
+<section id="more-models-using-dummy-variables" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="more-models-using-dummy-variables"><span class="header-section-number">5.4</span> More Models using Dummy Variables</h2>
+<p>As mentioned dummy variables (binary variables) are used to include qualitative information (e.g., gender, region, treatment/control) in a regression model. They take the value 0 or 1. Let’s explore how we can use dummy variables to further model nonlinear econometric relationships.</p>
+<section id="different-intercept-same-slope" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="different-intercept-same-slope"><span class="header-section-number">5.4.1</span> Different Intercept, Same Slope</h3>
+<p>This is the most common use. The dummy variable shifts the regression line up or down.</p>
+<p><strong>Model Specification:</strong> <span class="math display">\[Y_i = \alpha + \beta D_i + \gamma X_i + u_i\]</span> where <span class="math inline">\(D_i = 1\)</span> if an observation belongs to a certain group, 0 otherwise.</p>
+<p><strong>Interpretation:</strong> - <span class="math inline">\(\alpha\)</span> is the intercept for the baseline group (<span class="math inline">\(D=0\)</span>). - <span class="math inline">\(\alpha + \beta\)</span> is the intercept for the group where <span class="math inline">\(D=1\)</span>. - <span class="math inline">\(\beta\)</span> captures the difference in the mean of <span class="math inline">\(Y\)</span> between the two groups, <strong>holding <span class="math inline">\(X\)</span> constant</strong>.</p>
+</section>
+<section id="different-intercept-different-slope-interaction-with-a-dummy" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="different-intercept-different-slope-interaction-with-a-dummy"><span class="header-section-number">5.4.2</span> Different Intercept, Different Slope (Interaction with a Dummy)</h3>
+<p>This model allows both the intercept and the slope to differ between groups.</p>
+<p><strong>Model Specification:</strong> <span class="math display">\[Y_i = \alpha + \beta_1 D_i + \beta_2 X_i + \beta_3 (D_i \times X_i) + u_i\]</span></p>
+<p><strong>Interpretation:</strong> - For the baseline group (<span class="math inline">\(D=0\)</span>): <span class="math inline">\(Y_i = \alpha + \beta_2 X_i + u_i\)</span> - For the other group (<span class="math inline">\(D=1\)</span>): <span class="math inline">\(Y_i = (\alpha + \beta_1) + (\beta_2 + \beta_3) X_i + u_i\)</span> - <span class="math inline">\(\beta_1\)</span>: Difference in intercepts. - <span class="math inline">\(\beta_3\)</span>: Difference in slopes.</p>
+</section>
+<section id="same-intercept-different-slope" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="same-intercept-different-slope"><span class="header-section-number">5.4.3</span> Same Intercept, Different Slope</h3>
+<p>This is a restricted version of the model above, less commonly used, where the intercept is forced to be the same but the slopes are allowed to differ.</p>
+<p><strong>Model Specification:</strong> <span class="math display">\[Y_i = \alpha + \beta_1 X_i + \beta_2 (D_i \times X_i) + u_i\]</span></p>
+</section>
+</section>
+<section id="model-comparison-and-testing" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="model-comparison-and-testing"><span class="header-section-number">5.5</span> Model Comparison and Testing</h2>
+<section id="f-test-wald-test-for-model-selection" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="f-test-wald-test-for-model-selection"><span class="header-section-number">5.5.1</span> F-test (Wald Test) for Model Selection</h3>
+<p>When comparing nested models (e.g., a model with an interaction term vs.&nbsp;one without), the <strong>F-test for linear restrictions</strong> (also known as the Wald test) is the most appropriate method.</p>
+<ul>
+<li><strong>Example:</strong> To test if the interaction term is significant, compare the unrestricted model (<code>Y ~ X1 + X2 + X1*X2</code>) to the restricted model (<code>Y ~ X1 + X2</code>).</li>
+<li>A low p-value suggests the more complex (unrestricted) model is better.</li>
+</ul>
+<p><strong>R Code:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare a model with and without an interaction term</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>model_unrestricted <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">*</span> hp, <span class="at">data =</span> mtcars) <span class="co"># Includes interaction</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>model_restricted <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">+</span> hp, <span class="at">data =</span> mtcars)   <span class="co"># No interaction</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Use an F-test (Wald test) to compare them</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_restricted, model_unrestricted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: mpg ~ wt + hp
+Model 2: mpg ~ wt * hp
+  Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+1     29 195.05                                  
+2     28 129.76  1    65.286 14.088 0.0008108 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="a-note-on-adjusted-r-squared-and-model-comparison" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="a-note-on-adjusted-r-squared-and-model-comparison"><span class="header-section-number">5.5.2</span> A Note on Adjusted R-squared and Model Comparison</h3>
+<ul>
+<li><strong>Use Adjusted R-squared (<span class="math inline">\(\bar{R}^2\)</span>) to compare models with the same dependent variable (Y).</strong> It penalizes for adding extra variables.</li>
+<li><strong>Do NOT use <span class="math inline">\(\bar{R}^2\)</span> to compare models with different dependent variables</strong> (e.g., a model for <code>Y</code> vs.&nbsp;a model for <code>log(Y)</code>). The Total Sum of Squares (SST) is different, making the <span class="math inline">\(R^2\)</span> values incomparable.</li>
+<li>The F-test (Wald test), Likelihood Ratio (LR) test, and Lagrange Multiplier (LM) test are more robust methods for model comparison, especially for non-nested models or those with different dependent variables.</li>
+</ul>
+
+
 </section>
 </section>
 
@@ -812,13 +875,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./simple.html" class="pagination-link" aria-label="Simple Regression Model: Basics of OLS">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Simple Regression Model: Basics of OLS</span></span>
+      <a href="./violationofassumptions.html" class="pagination-link" aria-label="Violation of CLRM Assumptions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Violation of CLRM Assumptions</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./multiple.html" class="pagination-link" aria-label="The Multiple Regression Model">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Multiple Regression Model</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./logitprobit.html" class="pagination-link" aria-label="Limited Dependent Variable Models and Maximum Likelihood Estimation">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Limited Dependent Variable Models and Maximum Likelihood Estimation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

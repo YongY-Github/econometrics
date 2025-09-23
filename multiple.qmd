@@ -61,6 +61,7 @@ We can estimate the coefficients easily using R. Let's first expand our car mile
 ```{r}
 # Estimate a multiple regression model
 # mpg = alpha + beta1 * wt + beta2 * hp + u
+
 multi_model <- lm(mpg ~ wt + hp, data = mtcars)
 
 # Print the summary results

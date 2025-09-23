@@ -1,0 +1,171 @@
+# Non-linear Models and Dummy Variable Regression
+
+The power of regression analysis extends far beyond straight-line relationships. This chapter explores how to model non-linear patterns and include qualitative information using dummy variables, all within the framework of the linear regression model, which remains **linear in the parameters**.
+
+## Dummy Variables
+
+Let's begin with an short introduction of dummy variables (binary variables), which are often used to include qualitative information (e.g., gender, region, treatment/control) in a regression model. In econometrics, it is common for dummy variables to take the value 0 or 1, i.e. $D_i = \{ 0, 1 \}$.
+
+**Model Specification:**
+$$Y_i = \alpha + \beta D_i + u_i$$
+
+**Interpretation:**
+-   The baseline group ($D=0$) will have a mean or expected value of $\alpha$.
+-   The other group ($D=1$), meanwhile, has as its mean or expected value of $\alpha + \beta$
+-   Hence $\beta$ is the difference-in-means of the outcome variable $Y_i$ between the two groups.
+
+## Modeling Non-Linear Relationships
+
+While the relationship between variables may be non-linear, we can often transform the variables so that the model is **linear in the parameters** ($\beta$s), allowing us to use OLS.
+
+### Polynomial (Quadratic) Models
+
+A quadratic model is used to capture curvilinear relationships, such as diminishing or increasing returns.
+
+**Model Specification:**
+$$Y_i = \alpha + \beta_1 X_i + \beta_2 X_i^2 + u_i$$
+
+-   The model is linear in the parameters ($\alpha$, $\beta_1$, $\beta_2$), so we can run OLS.
+-   We create a new variable $X_i^2$ and include it as a separate regressor.
+
+**Interpretation:**
+-   The slope is no longer constant. The marginal effect of $X$ on $Y$ is given by the derivative: $\frac{\partial Y}{\partial X} = \beta_1 + 2\beta_2 X$.
+-   If $\beta_2 < 0$, the relationship is concave (inverted U-shape). If $\beta_2 > 0$, it is convex (U-shape).
+
+**Example in R:**
+```{r}
+#| warning: false
+#| message: false
+# Estimate a quadratic model for mpg vs. weight
+mtcars$wt_sq <- mtcars$wt^2 # Create the squared term
+quad_model <- lm(mpg ~ wt + wt_sq, data = mtcars)
+summary(quad_model)
+```
+
+### Logarithmic Transformations
+
+Logarithms are powerful tools for modeling percentage changes and non-constant elasticities. There are three common forms.
+
+#### 1. Linear-Log Model
+
+**Model Specification:**
+$$Y_i = \alpha + \beta_1 \ln(X_i) + u_i$$
+
+**Interpretation:**
+-   A **1% increase in X** is associated with a **$\beta_1 / 100$ unit change in Y**.
+-   $\beta_1$ represents the change in $Y$ for a 1% change in $X$.
+
+#### 2. Log-Linear Model
+
+**Model Specification:**
+$$\ln(Y_i) = \alpha + \beta_1 X_i + u_i$$
+
+**Interpretation:**
+-   A **one-unit increase in X** is associated with a **$(\beta_1 \times 100)$% change in Y** (approximately, for small $\beta_1$).
+-   Exact percentage change is $100 \times [\exp(\beta_1) - 1]\%$.
+
+#### 3. Log-Log Model
+
+**Model Specification:**
+$$\ln(Y_i) = \alpha + \beta_1 \ln(X_i) + u_i$$
+
+**Interpretation:**
+-   $\beta_1$ is the **elasticity** of $Y$ with respect to $X$.
+-   A **1% increase in X** is associated with a **$\beta_1$% change in Y**.
+
+**Example in R:**
+```{r}
+#| warning: false
+#| message: false
+# Log-Log model example: elasticity of mpg with respect to weight
+log_log_model <- lm(log(mpg) ~ log(wt), data = mtcars)
+summary(log_log_model)
+# The coefficient on log(wt) is the elasticity.
+```
+
+## Interaction Variables
+
+Interaction terms allow the effect of one independent variable ($X_1$) on the dependent variable ($Y$) to depend on the level of another independent variable ($X_2$).
+
+**Model Specification:**
+$$Y_i = \alpha + \beta_1 X_{1i} + \beta_2 X_{2i} + \beta_3 (X_{1i} \times X_{2i}) + u_i$$
+
+**Interpretation:**
+-   The marginal effect of $X_1$ on $Y$ is: $\frac{\partial Y}{\partial X_1} = \beta_1 + \beta_3 X_2$.
+-   This effect depends on the value of $X_2$.
+-   Similarly, the marginal effect of $X_2$ is $\beta_2 + \beta_3 X_1$.
+
+**Example in R:**
+```{r}
+#| warning: false
+#| message: false
+# Does the effect of weight (wt) on mpg depend on horsepower (hp)?
+interaction_model <- lm(mpg ~ wt + hp + wt:hp, data = mtcars)
+# Equivalently: mpg ~ wt * hp
+summary(interaction_model)
+```
+
+## More Models using Dummy Variables
+
+As mentioned dummy variables (binary variables) are used to include qualitative information (e.g., gender, region, treatment/control) in a regression model. They take the value 0 or 1. Let's explore how we can use dummy variables to further model nonlinear econometric relationships.
+
+### Different Intercept, Same Slope
+
+This is the most common use. The dummy variable shifts the regression line up or down.
+
+**Model Specification:**
+$$Y_i = \alpha + \beta D_i + \gamma X_i + u_i$$
+where $D_i = 1$ if an observation belongs to a certain group, 0 otherwise.
+
+**Interpretation:**
+-   $\alpha$ is the intercept for the baseline group ($D=0$).
+-   $\alpha + \beta$ is the intercept for the group where $D=1$.
+-   $\beta$ captures the difference in the mean of $Y$ between the two groups, **holding $X$ constant**.
+
+### Different Intercept, Different Slope (Interaction with a Dummy)
+
+This model allows both the intercept and the slope to differ between groups.
+
+**Model Specification:**
+$$Y_i = \alpha + \beta_1 D_i + \beta_2 X_i + \beta_3 (D_i \times X_i) + u_i$$
+
+**Interpretation:**
+-   For the baseline group ($D=0$): $Y_i = \alpha + \beta_2 X_i + u_i$
+-   For the other group ($D=1$): $Y_i = (\alpha + \beta_1) + (\beta_2 + \beta_3) X_i + u_i$
+-   $\beta_1$: Difference in intercepts.
+-   $\beta_3$: Difference in slopes.
+
+### Same Intercept, Different Slope
+
+This is a restricted version of the model above, less commonly used, where the intercept is forced to be the same but the slopes are allowed to differ.
+
+**Model Specification:**
+$$Y_i = \alpha + \beta_1 X_i + \beta_2 (D_i \times X_i) + u_i$$
+
+## Model Comparison and Testing
+
+### F-test (Wald Test) for Model Selection
+
+When comparing nested models (e.g., a model with an interaction term vs. one without), the **F-test for linear restrictions** (also known as the Wald test) is the most appropriate method.
+
+-   **Example:** To test if the interaction term is significant, compare the unrestricted model (`Y ~ X1 + X2 + X1*X2`) to the restricted model (`Y ~ X1 + X2`).
+-   A low p-value suggests the more complex (unrestricted) model is better.
+
+**R Code:**
+```{r}
+#| warning: false
+#| message: false
+# Compare a model with and without an interaction term
+model_unrestricted <- lm(mpg ~ wt * hp, data = mtcars) # Includes interaction
+model_restricted <- lm(mpg ~ wt + hp, data = mtcars)   # No interaction
+
+# Use an F-test (Wald test) to compare them
+anova(model_restricted, model_unrestricted)
+```
+
+### A Note on Adjusted R-squared and Model Comparison
+
+-   **Use Adjusted R-squared ($\bar{R}^2$) to compare models with the same dependent variable (Y).** It penalizes for adding extra variables.
+-   **Do NOT use $\bar{R}^2$ to compare models with different dependent variables** (e.g., a model for `Y` vs. a model for `log(Y)`). The Total Sum of Squares (SST) is different, making the $R^2$ values incomparable.
+-   The F-test (Wald test), Likelihood Ratio (LR) test, and Lagrange Multiplier (LM) test are more robust methods for model comparison, especially for non-nested models or those with different dependent variables.
+

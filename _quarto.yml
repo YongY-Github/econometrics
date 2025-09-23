@@ -11,6 +11,10 @@ book:
     - simple.qmd
     - assumptions.qmd
     - multiple.qmd
+    - violationofassumptions.qmd
+    - dummynonlinear.qmd
+    - LDV.qmd
+    - panel.qmd
     - references.qmd
 
 bibliography: references.bib

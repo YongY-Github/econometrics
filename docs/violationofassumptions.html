@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Applied Econometrics Notes - 2&nbsp; The Classical Linear Model (Gauss-Markov) Assumptions</title>
+<title>Applied Econometrics Notes - 4&nbsp; Violation of CLRM Assumptions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./multiple.html" rel="next">
-<link href="./simple.html" rel="prev">
+<link href="./dummynonlinear.html" rel="next">
+<link href="./multiple.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -144,7 +144,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./assumptions.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Classical Linear Model (Gauss-Markov) Assumptions</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./violationofassumptions.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Violation of CLRM Assumptions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -183,7 +183,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./assumptions.html" class="sidebar-item-text sidebar-link active">
+  <a href="./assumptions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Classical Linear Model (Gauss-Markov) Assumptions</span></span></a>
   </div>
 </li>
@@ -195,7 +195,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./violationofassumptions.html" class="sidebar-item-text sidebar-link">
+  <a href="./violationofassumptions.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Violation of CLRM Assumptions</span></span></a>
   </div>
 </li>
@@ -227,10 +227,13 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#clrm-assumptions" id="toc-clrm-assumptions" class="nav-link active" data-scroll-target="#clrm-assumptions"><span class="header-section-number">2.1</span> CLRM Assumptions</a></li>
-  <li><a href="#the-gauss-markov-theorem" id="toc-the-gauss-markov-theorem" class="nav-link" data-scroll-target="#the-gauss-markov-theorem"><span class="header-section-number">2.2</span> The Gauss-Markov Theorem</a>
+  <li><a href="#the-clrm-assumptions-again" id="toc-the-clrm-assumptions-again" class="nav-link active" data-scroll-target="#the-clrm-assumptions-again"><span class="header-section-number">4.1</span> The CLRM Assumptions Again</a></li>
+  <li><a href="#checking-assumptions" id="toc-checking-assumptions" class="nav-link" data-scroll-target="#checking-assumptions"><span class="header-section-number">4.2</span> Checking Assumptions</a>
   <ul class="collapse">
-  <li><a href="#checking-assumptions" id="toc-checking-assumptions" class="nav-link" data-scroll-target="#checking-assumptions"><span class="header-section-number">2.2.1</span> Checking Assumptions</a></li>
+  <li><a href="#testing-for-heteroskedasticity" id="toc-testing-for-heteroskedasticity" class="nav-link" data-scroll-target="#testing-for-heteroskedasticity"><span class="header-section-number">4.2.1</span> Testing for Heteroskedasticity</a></li>
+  <li><a href="#testing-for-autocorrelation" id="toc-testing-for-autocorrelation" class="nav-link" data-scroll-target="#testing-for-autocorrelation"><span class="header-section-number">4.2.2</span> Testing for Autocorrelation</a></li>
+  <li><a href="#testing-for-multicollinearity" id="toc-testing-for-multicollinearity" class="nav-link" data-scroll-target="#testing-for-multicollinearity"><span class="header-section-number">4.2.3</span> Testing for Multicollinearity</a></li>
+  <li><a href="#testing-for-endogeneity" id="toc-testing-for-endogeneity" class="nav-link" data-scroll-target="#testing-for-endogeneity"><span class="header-section-number">4.2.4</span> Testing for Endogeneity</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -240,7 +243,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Classical Linear Model (Gauss-Markov) Assumptions</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Violation of CLRM Assumptions</span></h1>
 </div>
 
 
@@ -257,63 +260,48 @@ window.Quarto = {
 </header>
 
 
-<section id="clrm-assumptions" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="clrm-assumptions"><span class="header-section-number">2.1</span> CLRM Assumptions</h2>
-<p>For the Ordinary Least Squares (OLS) estimators <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span> to have desirable properties (like being the <strong>Best Linear Unbiased Estimators</strong>, or BLUE), a set of assumptions about the population model must hold. These are the core assumptions for <strong>cross-sectional</strong> data analysis.</p>
-<p>Given that the population model is</p>
-<p><span class="math display">\[Y_i = \alpha + \beta X_i + u_i\]</span></p>
-<p><strong>Assumption 1: Conditional Mean Zero</strong></p>
-<p>The error term <span class="math inline">\(u\)</span> has an expected value of zero, <strong>given any value of the explanatory variable</strong> <span class="math inline">\(X\)</span>.</p>
-<p><span class="math display">\[E(u_i | X_i) = 0\]</span></p>
+<section id="the-clrm-assumptions-again" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="the-clrm-assumptions-again"><span class="header-section-number">4.1</span> The CLRM Assumptions Again</h2>
+<p>We have seen the assumptions for the Ordinary Least Squares (OLS) estimators <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}'s\)</span> to have desirable properties. What does it mean that assumptions do not hold?.</p>
+<p>Consider the following bivariate population model:</p>
+<p><span class="math display">\[Y_i = \alpha + \beta_1 X_{1i} + \beta_2 X_{2i} + u_i\]</span></p>
+<p><strong>Violation of Assumption 4: Endogeneity</strong></p>
+<p>We start with this one, as it is the most commons and serious of many econometric specifications. Basically we have endogeneity when any of the explanatory variable <span class="math inline">\(X's\)</span> is correlated with the error term <span class="math inline">\(u\)</span>.</p>
+<p><span class="math display">\[Cov(X_i's, u_i) \neq 0\]</span></p>
 <ul>
-<li><strong>Interpretation:</strong> This means that the explanatory variable <span class="math inline">\(X\)</span> provides no information about the mean of the unobserved factors. On average, the positive and negative omitted effects cancel out. This is the single most important assumption.</li>
-<li><strong>Implication:</strong> It implies that the model is correctly specified in its functional form and that there are <strong>no omitted variables that are correlated with</strong> <span class="math inline">\(X\)</span>. If this assumption fails, our OLS estimates are <strong>biased</strong>.</li>
+<li><p>This basically means that there are other important factors that affect the dependent variable <span class="math inline">\(Y_i\)</span> which if not included in the regression model will result in incorrect estimates!</p></li>
+<li><p><strong>Implication:</strong> Essentially <span class="math inline">\(\hat{\beta}\)</span> will be biased and inconsistent.</p></li>
+<li><p><strong>Violation of Assumption 1: Conditional mean is not zero</strong></p></li>
+<li><p>Endogeniety or violation of assumption 4 implies that Assumption 1, the zero conditional mean, also does not hold! The error term <span class="math inline">\(u\)</span> will not have expected value of zero, <strong>given the values of the explanatory variables</strong> <span class="math inline">\(X's\)</span>.</p></li>
 </ul>
-<p><strong>Assumption 2: Homoskedasticity</strong></p>
-<p>The error term <span class="math inline">\(u\)</span> has the same variance given any value of the explanatory variable.</p>
-<p><span class="math display">\[Var(u_i | X_i) = \sigma^2\]</span></p>
+<p><span class="math display">\[E(u_i | X_i's) \neq 0\]</span></p>
+<p><strong>Violation of Assumption 2: Heteroskedasticity</strong></p>
+<p>The error term <span class="math inline">\(u\)</span> has non-constant variances given the values of the explanatory variables.</p>
+<p><span class="math display">\[Var(u_i | X_i's) \neq \sigma^2\]</span></p>
 <ul>
-<li><strong>Interpretation:</strong> The variance of the unobserved factors is constant across all values of <span class="math inline">\(X\)</span>. The spread of the data points around the regression line is the same whether <span class="math inline">\(X\)</span> is small or large.</li>
-<li><strong>Implication:</strong> If this holds, OLS standard errors are valid. If it fails, we have <strong>heteroskedasticity</strong>, which means OLS estimates are still unbiased but their standard errors are incorrect. This leads to faulty hypothesis tests and confidence intervals.</li>
+<li><strong>Implication:</strong> In this case, OLS estimates are still unbiased but their standard errors are incorrect/inefficient, which leads to faulty hypothesis tests and confidence intervals.</li>
 </ul>
-<p><strong>Assumption 3: No Autocorrelation</strong></p>
-<p>The error terms for any two different observations are uncorrelated.</p>
-<p><span class="math display">\[Cov(u_i, u_j | X_i) = 0 \quad \text{for all } i \neq j\]</span></p>
+<p><strong>Violation of Assumption 3: Autocorrelation</strong></p>
+<p>The error terms for any two or more different observations are correlated.</p>
+<p><span class="math display">\[Cov(u_i, u_j | X_i) \neq 0 \quad \text{for all } i \neq j\]</span></p>
 <ul>
-<li><strong>Interpretation:</strong> The unobserved factors affecting <span class="math inline">\(Y\)</span> for one observation are not correlated with the unobserved factors affecting <span class="math inline">\(Y\)</span> for any other observation. In cross-sectional data, this is usually guaranteed by random sampling. However autocorrelation is usually a concern for <strong>time-series data</strong>.</li>
-<li><strong>Implication:</strong> Like heteroskedasticity, if this assumption fails, OLS estimates remain unbiased but the standard errors are incorrect/inefficient, leading to unreliable inference.</li>
+<li><strong>Implication:</strong> Like heteroskedasticity, if we have autocorrelation then OLS estimates remain unbiased but the standard errors are incorrect/inefficient, leading to unreliable inference.</li>
+<li><strong>Note:</strong> Autocorrelation (a.k.a. serial autocorrelation) is usually a concern for <strong>time-series</strong> data, i.e.&nbsp;usually <span class="math inline">\(Cov(u_t , u\_{t-1}) \neq 0\)</span>.</li>
 </ul>
-<p><strong>Assumption 4: Exogeneity</strong></p>
-<p>The explanatory variable <span class="math inline">\(X\)</span> is uncorrelated with the error term <span class="math inline">\(u\)</span>.</p>
-<p><span class="math display">\[Cov(X_i, u_i) = 0\]</span></p>
-<ul>
-<li><strong>Interpretation:</strong> This is essentially a weaker version of Assumption 1. It means <span class="math inline">\(X\)</span> is not influenced by the unobserved factors in <span class="math inline">\(u\)</span>.</li>
-<li><strong>Implication:</strong> This assumption is crucial especially for <strong>causal interpretation</strong>. If <span class="math inline">\(X\)</span> is correlated with <span class="math inline">\(u\)</span>, it could mean an omitted variable that affects <span class="math inline">\(Y\)</span> is also correlated with <span class="math inline">\(X\)</span> (a.k.a confounding, or the “third variable” problem). This is the famous <strong>omitted variable bias</strong>, which causes <span class="math inline">\(\hat{\beta}\)</span> to be biased and inconsistent.</li>
-</ul>
-<p><strong>Assumption 5: No Perfect Multicollinearity</strong></p>
+<p><strong>Violation of Assumption 5: Perfect (or near perfect) Multicollinearity</strong></p>
 <ul>
 <li><strong>Interpretation (for simple regression):</strong> In the simple regression model with one explanatory variable, this assumption is automatically satisfied as long as <span class="math inline">\(X\)</span> is not constant.</li>
-<li><strong>Interpretation (for multiple regression):</strong> This assumption becomes critical when we have more than one explanatory variable. It states that no independent variable is a perfect linear combination of another independent variable(s).</li>
+<li><strong>Implication:</strong> When we have perfect multicollinearity, any independent variable is a perfect linear combination of other independent variable(s), then we canot get OLS estimates, and econometric packages will often delete one.</li>
 </ul>
 </section>
-<section id="the-gauss-markov-theorem" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="the-gauss-markov-theorem"><span class="header-section-number">2.2</span> The Gauss-Markov Theorem</h2>
-<p>If Assumptions 1 through 4 hold (and 5 for multiple regression), the OLS estimators <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span> are the <strong>Best Linear Unbiased Estimators (BLUE)</strong>.</p>
-<ul>
-<li><strong>Linear:</strong> They are linear functions of the data.</li>
-<li><strong>Unbiased:</strong> On average, across repeated samples, they equal the true population parameters, i.e.&nbsp;<span class="math inline">\(E[\hat{\beta}] = \beta\)</span>.</li>
-<li><strong>Best:</strong> They have the smallest variance among all other linear unbiased estimators. This means they are the most precise (efficient).</li>
-</ul>
-<p>This theorem is why OLS is the workhorse of econometrics—under these conditions, no other linear estimator is better.</p>
-<section id="checking-assumptions" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="checking-assumptions"><span class="header-section-number">2.2.1</span> Checking Assumptions</h3>
-<p>While a full diagnostic check will be done in later chapters, we’ll start by checking for non-constant variances, or heteroskedasticty.</p>
-<section id="testing-for-heteroskedasticity" class="level4" data-number="2.2.1.1">
-<h4 data-number="2.2.1.1" class="anchored" data-anchor-id="testing-for-heteroskedasticity"><span class="header-section-number">2.2.1.1</span> Testing for Heteroskedasticity</h4>
-<p>Here is a quick example of how to generate residual plots whch can be useful to visually check for homoskedasticity and mean zero.</p>
+<section id="checking-assumptions" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="checking-assumptions"><span class="header-section-number">4.2</span> Checking Assumptions</h2>
+<section id="testing-for-heteroskedasticity" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="testing-for-heteroskedasticity"><span class="header-section-number">4.2.1</span> Testing for Heteroskedasticity</h3>
+<p>As previously mentioned, a quick look at residual plots is useful a good start to vidually look for hoteroskedasticity and/or non-zero mean.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> mtcars)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">+</span> hp, <span class="at">data =</span> mtcars)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a dataframe of fitted values and residuals</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>diagnostic_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -336,13 +324,12 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="assumptions_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="violationofassumptions_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p><strong>Interpreting the plot:</strong> We look for a random scatter of points around the red zero line. The absence of a clear pattern (e.g., a curve or a funnel) is a good sign that Assumptions 1 and 2 are plausible. In this <code>mtcars</code> example, there might be a slight pattern, suggesting a potential minor violation worth investigating further.</p>
-<p>A more formal test is the <strong>White test</strong>, a general and powerful test for heteroskedasticity. It does not assume a specific form for the heteroskedasticity (e.g., that variance increases with X). The test works by regressing the squared residuals from the original model on the original explanatory variables, their squares, and their cross-products.</p>
+<p>A more formal test is the <strong>White test</strong>, a general and powerful test for heteroskedasticity. The test works by regressing the squared residuals from the original model on the original explanatory variables, their squares, and their cross-products.</p>
 <p>The null and alternative hypotheses are:</p>
 <p><span class="math inline">\(H_0\)</span>: Homoskedasticity exists (the error variance is constant).</p>
 <p><span class="math inline">\(H_1\)</span>: Heteroskedasticity exists (the error variance is not constant).</p>
@@ -351,13 +338,13 @@ window.Quarto = {
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform the White test for the simple model mpg ~ wt</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(model, <span class="sc">~</span> wt <span class="sc">+</span> <span class="fu">I</span>(wt<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(model, <span class="sc">~</span> wt <span class="sc">*</span> hp <span class="sc">+</span> <span class="fu">I</span>(wt<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     studentized Breusch-Pagan test
 
 data:  model
-BP = 1.3663, df = 2, p-value = 0.505</code></pre>
+BP = 6.5431, df = 5, p-value = 0.2569</code></pre>
 </div>
 </div>
 <p>The <code>bptest()</code> output shows a BP test statistic and a p-value. A p-value &lt; 0.05 means you reject the null hypothesis of homoskedasticity. In the <code>mtcars</code> example above, we fail to reject the null hypothesis, suggesting that we have may not have heteroskedasticty.</p>
@@ -394,9 +381,150 @@ Model 2: squared_residuals ~ wt + I(wt^2)
 </div>
 </div>
 <p>We look at the F-statistic and its p-value (Pr(&gt;F)). A p-value &lt; 0.05 provides evidence to reject the null hypothesis (<span class="math inline">\(H_0\)</span>) of homoskedasticity, thereby suggesting the error variance is not constant and depends on weight (wt). Here, again Pr(&gt;F) is 0.5312, hence we fail to reject the null.</p>
-
-
 </section>
+<section id="testing-for-autocorrelation" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="testing-for-autocorrelation"><span class="header-section-number">4.2.2</span> Testing for Autocorrelation</h3>
+</section>
+<section id="testing-for-multicollinearity" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="testing-for-multicollinearity"><span class="header-section-number">4.2.3</span> Testing for Multicollinearity</h3>
+</section>
+<section id="testing-for-endogeneity" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="testing-for-endogeneity"><span class="header-section-number">4.2.4</span> Testing for Endogeneity</h3>
+<p>Endogeneity occurs when an explanatory variable is correlated with the error term (<span class="math inline">\(Cov(X, u) \neq 0\)</span>), violating a key Gauss-Markov assumption (4). This often arises from:</p>
+<ol type="1">
+<li>Confounding leading to omitted variable bias</li>
+<li>Reverse causality</li>
+<li>Measurement Error</li>
+<li>Simultaneity</li>
+</ol>
+<p>The consequence is that the OLS estimator becomes <strong>biased and inconsistent</strong>.</p>
+<p><strong>The Logic of the Hausman Test</strong></p>
+<p>The test follows a straightforward logic:</p>
+<ol type="1">
+<li><p><strong>Null Hypothesis (</strong><span class="math inline">\(H_0\)</span>): The variable in question is <em>exogenous</em> (<span class="math inline">\(Cov(X, u) = 0\)</span>). OLS is consistent and efficient.</p></li>
+<li><p><strong>Alternative Hypothesis (</strong><span class="math inline">\(H_1\)</span>): The variable is <em>endogenous</em> (<span class="math inline">\(Cov(X, u) \neq 0\)</span>). OLS is inconsistent.</p></li>
+</ol>
+<p>The test compares two estimators:</p>
+<ul>
+<li><strong>OLS Estimator:</strong> Efficient (has the smallest possible variance) under <span class="math inline">\(H_0\)</span>, but <strong>inconsistent</strong> under <span class="math inline">\(H_1\)</span>.</li>
+<li><strong>IV (Instrumental Variables) Estimator:</strong> Consistent under both <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span>, but <strong>inefficient</strong> (has larger variance) under <span class="math inline">\(H_0\)</span>.</li>
+</ul>
+<p>If the variable is exogenous (<span class="math inline">\(H_0\)</span> is true), the OLS and IV estimates should be similar. If they are significantly different, we have evidence that endogeneity is present (<span class="math inline">\(H_1\)</span> is true).</p>
+<p><strong>Implementing the Hausman Test in R: A Step-by-Step Guide</strong></p>
+<p>The test is implemented as a <strong>Durbin-Wu-Hausman</strong> test via a convenient auxiliary regression.</p>
+<p><strong>Prerequisite:</strong> You must have at least one <strong>valid instrument</strong> for the potentially endogenous variable. A valid instrument must be:</p>
+<ol type="1">
+<li><strong>Relevant:</strong> Correlated with the endogenous variable.</li>
+<li><strong>Exogenous:</strong> <em>Not</em> correlated with the error term (<span class="math inline">\(Cov(Z, u) = 0\)</span>).</li>
+</ol>
+<p><strong>Scenario:</strong> Suppose we fear that <code>wt</code> (weight) is endogenous in our model <code>mpg ~ wt</code>. Suppose we use <code>hp</code> (horsepower) as instruments.</p>
+<p><strong>Step 1: Estimate the First Stage Regression</strong></p>
+<p>Regress the potentially endogenous variable (<code>hp</code>) on all exogenous variables and the instruments.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First Stage: Regress the endogenous variable on instruments and other exogenous vars</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>first_stage <span class="ot">&lt;-</span> <span class="fu">lm</span>(hp <span class="sc">~</span> wt <span class="sc">+</span> hp, <span class="at">data =</span> mtcars)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve the residuals from the first stage</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>first_stage_residuals <span class="ot">&lt;-</span> <span class="fu">resid</span>(first_stage)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add these residuals to the original dataset for the next step</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>mtcars<span class="sc">$</span>fs_resid <span class="ot">&lt;-</span> first_stage_residuals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Step 2: Estimate the Auxiliary Regression</strong> Run the original model, but <em>include the first-stage residuals</em> as an additional regressor.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Auxiliary Regression: Original model + first stage residuals</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>auxiliary_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt <span class="sc">+</span> fs_resid, <span class="at">data =</span> mtcars)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(auxiliary_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = mpg ~ wt + fs_resid, data = mtcars)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-3.941 -1.600 -0.182  1.050  5.854 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 37.28513    1.59870  23.322  &lt; 2e-16 ***
+wt          -5.34447    0.47605 -11.227 4.49e-12 ***
+fs_resid    -0.03177    0.00903  -3.519  0.00145 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.593 on 29 degrees of freedom
+Multiple R-squared:  0.8268,    Adjusted R-squared:  0.8148 
+F-statistic: 69.21 on 2 and 29 DF,  p-value: 9.109e-12</code></pre>
+</div>
+</div>
+<p><strong>Step 3: Interpret the Result</strong> - The key is the <strong>t-test on the coefficient of the residual variable (<code>fs_resid</code>)</strong>. - <strong>Null Hypothesis (</strong><span class="math inline">\(H_0\)</span>): The coefficient on the residuals is zero. This means the variable (<code>wt</code>) is exogenous. - <strong>Alternative Hypothesis (</strong><span class="math inline">\(H_1\)</span>): The coefficient on the residuals is <em>not</em> zero. This is evidence of endogeneity.</p>
+<p>A low p-value (typically &lt; 0.05) on the <code>fs_resid</code> coefficient leads to a rejection of the null hypothesis, suggesting that <code>wt</code> is indeed endogenous.</p>
+<p><strong>Using the <code>ivreg</code> and <code>lmtest</code> packages</strong></p>
+<p>A more efficient method is to use the <code>ivreg()</code> function from the <code>AER</code> package and then formally test for endogeneity.</p>
+<p>Specifying a model with instruments: The syntax y ~ x1 + x2 | z1 + z2 means that we are regressing y on x1 and x2, using for x2 instruments z1 and z2 (and x1 is included as its own instrument).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("AER") # Install the Applied Econometrics with R package</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AER)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Estimate the model via IV and OLS</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># IV model: Specify the formula and instruments</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>iv_model <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(mpg <span class="sc">~</span> wt <span class="sc">|</span> hp, <span class="at">data =</span> mtcars)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Perform the Hausman test</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># The null is that OLS is consistent (no endogeneity)</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Run summary with diagnostics</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iv_model, <span class="at">diagnostics =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+ivreg(formula = mpg ~ wt | hp, data = mtcars)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-4.634 -2.428 -1.063  2.291 10.052 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   43.440      3.282  13.237 4.62e-14 ***
+wt            -7.258      1.001  -7.252 4.50e-08 ***
+
+Diagnostic tests:
+                 df1 df2 statistic  p-value    
+Weak instruments   1  30     23.00 4.15e-05 ***
+Wu-Hausman         1  29     12.38  0.00145 ** 
+Sargan             0  NA        NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.591 on 30 degrees of freedom
+Multiple R-Squared: 0.6564, Adjusted R-squared: 0.6449 
+Wald test: 52.59 on 1 and 30 DF,  p-value: 4.497e-08 </code></pre>
+</div>
+</div>
+<p><strong>Interpreting the Test:</strong></p>
+<p><strong>Weak Instruments Test</strong></p>
+<p>What it tests: Whether the instrument(s) (hp) is sufficiently correlated with the endogenous regressor (wt). A strong first-stage relationship is crucial for IV to work.</p>
+<p>Interpretation: The null hypothesis is that the instruments are weak.</p>
+<p>The result (p-value = 4.15e-05), an extremely low p-value, suggests that we should strongly reject the null. The instrument(s) are not weak; they are strong and relevant. This is a good sign.</p>
+<p><strong>Wu-Hausman Test (for Endogeneity)</strong></p>
+<p>What it tests: This is the test for endogeneity. The null hypothesis (<span class="math inline">\(H_0\)</span>) is that the variable (wt) is exogenous. The alternative (<span class="math inline">\(H_1\)</span>) is that it is endogenous.</p>
+<p>Interpretation: A low p-value suggests you should reject <span class="math inline">\(H_0\)</span> and use the IV estimator. A high p-value means you cannot reject <span class="math inline">\(H_0\)</span> and should prefer the efficient OLS estimator.</p>
+<p>The result (p-value = 0.0014), a low p-value means we should reject the null hypothesis. There is statistical evidence that wt is endogenous. Therefore, the standard OLS estimates for mpg ~ wt gives biased etimates.</p>
+<p><strong>Sargan Test (for Overidentifying Restrictions)</strong></p>
+<p>What it tests: This test checks the validity of your overidentifying instruments. It is only relevant if you have more instruments than endogenous variables. The null hypothesis (<span class="math inline">\(H_0\)</span>) is that the extra instruments are valid (uncorrelated with the error term).</p>
+<p>Interpretation: A low p-value is undesirable, as it means you should reject <span class="math inline">\(H_0\)</span> and suspect that at least one of your extra instruments is invalid.</p>
+<p><strong>What to Do If You Find Endogeneity?</strong></p>
+<p>If the test suggests endogeneity, you should <strong>not trust the OLS results</strong>. You must use a method that addresses the endogeneity, such as:</p>
+<ul>
+<li><strong>Finding Better Controls:</strong> If the endogeneity is from omitted variable bias.</li>
+<li><strong>Instrumental Variables (IV) Regression:</strong> The primary solution, implemented with <code>ivreg()</code>.</li>
+<li><strong>Using Panel Data Methods:</strong> Such as fixed effects models, if you have panel data.</li>
+</ul>
+<p><strong>Important:</strong> The validity of the Hausman test hinges on the <strong>quality of your instruments</strong>. If your instruments are weak or invalid, the test itself is unreliable. Always check the first-stage F-statistic to ensure instrument strength (a rule of thumb is F-stat &gt; 10).</p>
+
+
 </section>
 </section>
 
@@ -812,13 +940,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./simple.html" class="pagination-link" aria-label="Simple Regression Model: Basics of OLS">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Simple Regression Model: Basics of OLS</span></span>
+      <a href="./multiple.html" class="pagination-link" aria-label="The Multiple Regression Model">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Multiple Regression Model</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./multiple.html" class="pagination-link" aria-label="The Multiple Regression Model">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Multiple Regression Model</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./dummynonlinear.html" class="pagination-link" aria-label="Dummy Variable Regression">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dummy Variable Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

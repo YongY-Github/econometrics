@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Applied Econometrics Notes - 2&nbsp; The Classical Linear Model (Gauss-Markov) Assumptions</title>
+<title>Applied Econometrics Notes - 6&nbsp; Limited Dependent Variable Models and Maximum Likelihood Estimation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./multiple.html" rel="next">
-<link href="./simple.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./dummynonlinear.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -144,7 +144,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./assumptions.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Classical Linear Model (Gauss-Markov) Assumptions</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./logitprobit.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Limited Dependent Variable Models and Maximum Likelihood Estimation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -183,7 +183,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./assumptions.html" class="sidebar-item-text sidebar-link active">
+  <a href="./assumptions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Classical Linear Model (Gauss-Markov) Assumptions</span></span></a>
   </div>
 </li>
@@ -202,13 +202,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./dummynonlinear.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dummy Variable Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-linear Models and Dummy Variable Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./logitprobit.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Logit</span></span></a>
+  <a href="./logitprobit.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Limited Dependent Variable Models and Maximum Likelihood Estimation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -227,11 +227,17 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#clrm-assumptions" id="toc-clrm-assumptions" class="nav-link active" data-scroll-target="#clrm-assumptions"><span class="header-section-number">2.1</span> CLRM Assumptions</a></li>
-  <li><a href="#the-gauss-markov-theorem" id="toc-the-gauss-markov-theorem" class="nav-link" data-scroll-target="#the-gauss-markov-theorem"><span class="header-section-number">2.2</span> The Gauss-Markov Theorem</a>
+  <li><a href="#maximum-likelihood-estimation-mle" id="toc-maximum-likelihood-estimation-mle" class="nav-link active" data-scroll-target="#maximum-likelihood-estimation-mle"><span class="header-section-number">6.1</span> Maximum Likelihood Estimation (MLE)</a></li>
+  <li><a href="#binary-dependent-variables-logit-and-probit" id="toc-binary-dependent-variables-logit-and-probit" class="nav-link" data-scroll-target="#binary-dependent-variables-logit-and-probit"><span class="header-section-number">6.2</span> Binary Dependent Variables (Logit and Probit)</a>
   <ul class="collapse">
-  <li><a href="#checking-assumptions" id="toc-checking-assumptions" class="nav-link" data-scroll-target="#checking-assumptions"><span class="header-section-number">2.2.1</span> Checking Assumptions</a></li>
+  <li><a href="#the-linear-probability-model-lpm-and-its-problems" id="toc-the-linear-probability-model-lpm-and-its-problems" class="nav-link" data-scroll-target="#the-linear-probability-model-lpm-and-its-problems"><span class="header-section-number">6.2.1</span> The Linear Probability Model (LPM) and its Problems</a></li>
+  <li><a href="#the-latent-variable-framework" id="toc-the-latent-variable-framework" class="nav-link" data-scroll-target="#the-latent-variable-framework"><span class="header-section-number">6.2.2</span> The Latent Variable Framework</a></li>
+  <li><a href="#logit-and-probit-models" id="toc-logit-and-probit-models" class="nav-link" data-scroll-target="#logit-and-probit-models"><span class="header-section-number">6.2.3</span> Logit and Probit Models</a></li>
   </ul></li>
+  <li><a href="#multinomial-and-ordered-models" id="toc-multinomial-and-ordered-models" class="nav-link" data-scroll-target="#multinomial-and-ordered-models"><span class="header-section-number">6.3</span> Multinomial and Ordered Models</a></li>
+  <li><a href="#censored-and-truncated-regression-tobit-model" id="toc-censored-and-truncated-regression-tobit-model" class="nav-link" data-scroll-target="#censored-and-truncated-regression-tobit-model"><span class="header-section-number">6.4</span> Censored and Truncated Regression (Tobit Model)</a></li>
+  <li><a href="#count-data-models-poisson-regression" id="toc-count-data-models-poisson-regression" class="nav-link" data-scroll-target="#count-data-models-poisson-regression"><span class="header-section-number">6.5</span> Count Data Models (Poisson Regression)</a></li>
+  <li><a href="#sample-selection-models-heckmans-heckit" id="toc-sample-selection-models-heckmans-heckit" class="nav-link" data-scroll-target="#sample-selection-models-heckmans-heckit"><span class="header-section-number">6.6</span> Sample Selection Models (Heckman’s Heckit)</a></li>
   </ul>
 </nav>
     </div>
@@ -240,7 +246,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Classical Linear Model (Gauss-Markov) Assumptions</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Limited Dependent Variable Models and Maximum Likelihood Estimation</span></h1>
 </div>
 
 
@@ -257,147 +263,175 @@ window.Quarto = {
 </header>
 
 
-<section id="clrm-assumptions" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="clrm-assumptions"><span class="header-section-number">2.1</span> CLRM Assumptions</h2>
-<p>For the Ordinary Least Squares (OLS) estimators <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span> to have desirable properties (like being the <strong>Best Linear Unbiased Estimators</strong>, or BLUE), a set of assumptions about the population model must hold. These are the core assumptions for <strong>cross-sectional</strong> data analysis.</p>
-<p>Given that the population model is</p>
-<p><span class="math display">\[Y_i = \alpha + \beta X_i + u_i\]</span></p>
-<p><strong>Assumption 1: Conditional Mean Zero</strong></p>
-<p>The error term <span class="math inline">\(u\)</span> has an expected value of zero, <strong>given any value of the explanatory variable</strong> <span class="math inline">\(X\)</span>.</p>
-<p><span class="math display">\[E(u_i | X_i) = 0\]</span></p>
+<p>When the dependent variable (Y) is limited in its range (e.g., binary, count data, or censored), Ordinary Least Squares (OLS) is often inappropriate. This chapter introduces Maximum Likelihood Estimation (MLE) and the family of models designed for such limited dependent variables.</p>
+<section id="maximum-likelihood-estimation-mle" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="maximum-likelihood-estimation-mle"><span class="header-section-number">6.1</span> Maximum Likelihood Estimation (MLE)</h2>
+<p>OLS is not the only method for estimating parameters. MLE is another powerful and widely used estimator.</p>
 <ul>
-<li><strong>Interpretation:</strong> This means that the explanatory variable <span class="math inline">\(X\)</span> provides no information about the mean of the unobserved factors. On average, the positive and negative omitted effects cancel out. This is the single most important assumption.</li>
-<li><strong>Implication:</strong> It implies that the model is correctly specified in its functional form and that there are <strong>no omitted variables that are correlated with</strong> <span class="math inline">\(X\)</span>. If this assumption fails, our OLS estimates are <strong>biased</strong>.</li>
+<li><strong>Concept:</strong> Maximum Likelihood Estimation finds the parameter values that make the observed sample data <strong>most probable</strong> (i.e., maximize the likelihood function).</li>
+<li><strong>Intuition:</strong> Given a statistical model (e.g., a normal distribution) and a sample of data, MLE answers: “What values of the model’s parameters (mean, variance) would most likely have generated this data?”</li>
+<li><strong>Comparison:</strong> While OLS minimizes the sum of squared residuals, MLE maximizes the likelihood function. For the classical linear model with normal errors, OLS and MLE produce identical estimates.</li>
 </ul>
-<p><strong>Assumption 2: Homoskedasticity</strong></p>
-<p>The error term <span class="math inline">\(u\)</span> has the same variance given any value of the explanatory variable.</p>
-<p><span class="math display">\[Var(u_i | X_i) = \sigma^2\]</span></p>
-<ul>
-<li><strong>Interpretation:</strong> The variance of the unobserved factors is constant across all values of <span class="math inline">\(X\)</span>. The spread of the data points around the regression line is the same whether <span class="math inline">\(X\)</span> is small or large.</li>
-<li><strong>Implication:</strong> If this holds, OLS standard errors are valid. If it fails, we have <strong>heteroskedasticity</strong>, which means OLS estimates are still unbiased but their standard errors are incorrect. This leads to faulty hypothesis tests and confidence intervals.</li>
-</ul>
-<p><strong>Assumption 3: No Autocorrelation</strong></p>
-<p>The error terms for any two different observations are uncorrelated.</p>
-<p><span class="math display">\[Cov(u_i, u_j | X_i) = 0 \quad \text{for all } i \neq j\]</span></p>
-<ul>
-<li><strong>Interpretation:</strong> The unobserved factors affecting <span class="math inline">\(Y\)</span> for one observation are not correlated with the unobserved factors affecting <span class="math inline">\(Y\)</span> for any other observation. In cross-sectional data, this is usually guaranteed by random sampling. However autocorrelation is usually a concern for <strong>time-series data</strong>.</li>
-<li><strong>Implication:</strong> Like heteroskedasticity, if this assumption fails, OLS estimates remain unbiased but the standard errors are incorrect/inefficient, leading to unreliable inference.</li>
-</ul>
-<p><strong>Assumption 4: Exogeneity</strong></p>
-<p>The explanatory variable <span class="math inline">\(X\)</span> is uncorrelated with the error term <span class="math inline">\(u\)</span>.</p>
-<p><span class="math display">\[Cov(X_i, u_i) = 0\]</span></p>
-<ul>
-<li><strong>Interpretation:</strong> This is essentially a weaker version of Assumption 1. It means <span class="math inline">\(X\)</span> is not influenced by the unobserved factors in <span class="math inline">\(u\)</span>.</li>
-<li><strong>Implication:</strong> This assumption is crucial especially for <strong>causal interpretation</strong>. If <span class="math inline">\(X\)</span> is correlated with <span class="math inline">\(u\)</span>, it could mean an omitted variable that affects <span class="math inline">\(Y\)</span> is also correlated with <span class="math inline">\(X\)</span> (a.k.a confounding, or the “third variable” problem). This is the famous <strong>omitted variable bias</strong>, which causes <span class="math inline">\(\hat{\beta}\)</span> to be biased and inconsistent.</li>
-</ul>
-<p><strong>Assumption 5: No Perfect Multicollinearity</strong></p>
-<ul>
-<li><strong>Interpretation (for simple regression):</strong> In the simple regression model with one explanatory variable, this assumption is automatically satisfied as long as <span class="math inline">\(X\)</span> is not constant.</li>
-<li><strong>Interpretation (for multiple regression):</strong> This assumption becomes critical when we have more than one explanatory variable. It states that no independent variable is a perfect linear combination of another independent variable(s).</li>
-</ul>
+<p>Let’s explore some important LDV models, i.e.&nbsp;models in which dependent variable can assume a limited form, making linear regression unsuitable.</p>
 </section>
-<section id="the-gauss-markov-theorem" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="the-gauss-markov-theorem"><span class="header-section-number">2.2</span> The Gauss-Markov Theorem</h2>
-<p>If Assumptions 1 through 4 hold (and 5 for multiple regression), the OLS estimators <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span> are the <strong>Best Linear Unbiased Estimators (BLUE)</strong>.</p>
+<section id="binary-dependent-variables-logit-and-probit" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="binary-dependent-variables-logit-and-probit"><span class="header-section-number">6.2</span> Binary Dependent Variables (Logit and Probit)</h2>
+<p>When the outcome is binary, e.g., ( Y_i = {1, 0} ) (e.g., 1=owns a car, 0=does not own a car).</p>
+<section id="the-linear-probability-model-lpm-and-its-problems" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="the-linear-probability-model-lpm-and-its-problems"><span class="header-section-number">6.2.1</span> The Linear Probability Model (LPM) and its Problems</h3>
+<p>A naive approach is to use OLS on the binary outcome: ( Y_i = _1 + <em>2 X</em>{2i} + u_i ). - The fitted values, ( _i ), can be interpreted as the probability that ( Y_i=1 ). - <strong>Problems:</strong> 1. <strong>Probabilities outside [0,1]:</strong> OLS can predict probabilities less than 0 or greater than 1. 2. <strong>Non-normal errors:</strong> The error term ( u_i ) can only take two values, violating the normality assumption. 3. <strong>Heteroskedasticity:</strong> The variance of the error term is not constant. 4. <strong>Low R²:</strong> R-squared is often very low for cross-sectional binary outcomes, which is not a good measure of fit.</p>
+</section>
+<section id="the-latent-variable-framework" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="the-latent-variable-framework"><span class="header-section-number">6.2.2</span> The Latent Variable Framework</h3>
+A better approach is to model a continuous, unobserved (latent) variable ( Y_i^* ) that determines the observed outcome. - <strong>Latent Model:</strong> ( Y_i^* = _1 + <em>2 X</em>{2i} + u_i ) - <strong>Observation Rule:</strong> ( Y_i =
+<span class="math display">\[\begin{cases} 1 &amp; \text{if } Y_i^* \geq 0 \\ 0 &amp; \text{if } Y_i^* &lt; 0 \end{cases}\]</span>
+<p>)</p>
+The probability of observing ( Y_i=1 ) is: [
+<span class="math display">\[\begin{aligned}
+P(Y_i = 1) &amp;= P(Y_i^* \geq 0) \\
+&amp;= P(\beta_1 + \beta_2 X_{2i} + u_i \geq 0) \\
+&amp;= P(u_i \geq -\mathbf{X}_i'\boldsymbol{\beta}) \\
+&amp;= 1 - F(-\mathbf{X}_i'\boldsymbol{\beta}) = F(\mathbf{X}_i'\boldsymbol{\beta})
+\end{aligned}\]</span>
+<p>] where ( F() ) is a cumulative distribution function (CDF). The last equality holds if the distribution of ( u_i ) is symmetric around zero (like the normal or logistic).</p>
+</section>
+<section id="logit-and-probit-models" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="logit-and-probit-models"><span class="header-section-number">6.2.3</span> Logit and Probit Models</h3>
+<p>The choice of ( F() ) gives rise to different models:</p>
+<ol type="1">
+<li><p><strong>Probit Model:</strong> Uses the <strong>standard normal CDF</strong>, denoted ( () ). [ P(Y_i = 1) = (_i’) ]</p></li>
+<li><p><strong>Logit Model:</strong> Uses the <strong>logistic CDF</strong>. [ P(Y_i = 1) = (_i’) = ]</p></li>
+</ol>
+<p>The parameters ( ) are estimated by <strong>Maximum Likelihood Estimation (MLE)</strong>.</p>
+<section id="interpretation-of-coefficients" class="level4" data-number="6.2.3.1">
+<h4 data-number="6.2.3.1" class="anchored" data-anchor-id="interpretation-of-coefficients"><span class="header-section-number">6.2.3.1</span> Interpretation of Coefficients</h4>
+<p>Unlike OLS, the coefficients ( _k ) do not represent a constant marginal effect. The marginal effect of a change in ( X_k ) on the probability ( P(Y=1) ) depends on the values of all explanatory variables.</p>
 <ul>
-<li><strong>Linear:</strong> They are linear functions of the data.</li>
-<li><strong>Unbiased:</strong> On average, across repeated samples, they equal the true population parameters, i.e.&nbsp;<span class="math inline">\(E[\hat{\beta}] = \beta\)</span>.</li>
-<li><strong>Best:</strong> They have the smallest variance among all other linear unbiased estimators. This means they are the most precise (efficient).</li>
+<li><p><strong>Probit Marginal Effect:</strong> [ = (_i’) _k ] where ( () ) is the standard normal probability density function (PDF).</p></li>
+<li><p><strong>Logit Marginal Effect:</strong> [ = (_i’)[1-(_i’)] _k ]</p></li>
+<li><p><strong>Odds Ratio (Logit):</strong> The logit model can also be interpreted in terms of odds.</p>
+<ul>
+<li>The <strong>odds</strong> in favor of ( Y=1 ) are ( = (_i’) ).</li>
+<li>A one-unit change in ( X_k ) <strong>multiplies</strong> the odds by ( (_k) ), holding all else constant.</li>
+</ul></li>
 </ul>
-<p>This theorem is why OLS is the workhorse of econometrics—under these conditions, no other linear estimator is better.</p>
-<section id="checking-assumptions" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="checking-assumptions"><span class="header-section-number">2.2.1</span> Checking Assumptions</h3>
-<p>While a full diagnostic check will be done in later chapters, we’ll start by checking for non-constant variances, or heteroskedasticty.</p>
-<section id="testing-for-heteroskedasticity" class="level4" data-number="2.2.1.1">
-<h4 data-number="2.2.1.1" class="anchored" data-anchor-id="testing-for-heteroskedasticity"><span class="header-section-number">2.2.1.1</span> Testing for Heteroskedasticity</h4>
-<p>Here is a quick example of how to generate residual plots whch can be useful to visually check for homoskedasticity and mean zero.</p>
+<p><strong>Example in R:</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> mtcars)</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a binary variable: 1 if mpg &gt; 20, 0 otherwise</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>mtcars<span class="sc">$</span>high_mpg <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(mtcars<span class="sc">$</span>mpg <span class="sc">&gt;</span> <span class="dv">20</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a dataframe of fitted values and residuals</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>diagnostic_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">fitted =</span> <span class="fu">fitted</span>(model),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">residuals =</span> <span class="fu">resid</span>(model)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot residuals vs. fitted values</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diagnostic_data, <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> residuals)) <span class="sc">+</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Residuals vs. Fitted Values"</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Fitted Values (Y_hat)"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Residuals (u_hat)"</span>) <span class="sc">+</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="assumptions_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p><strong>Interpreting the plot:</strong> We look for a random scatter of points around the red zero line. The absence of a clear pattern (e.g., a curve or a funnel) is a good sign that Assumptions 1 and 2 are plausible. In this <code>mtcars</code> example, there might be a slight pattern, suggesting a potential minor violation worth investigating further.</p>
-<p>A more formal test is the <strong>White test</strong>, a general and powerful test for heteroskedasticity. It does not assume a specific form for the heteroskedasticity (e.g., that variance increases with X). The test works by regressing the squared residuals from the original model on the original explanatory variables, their squares, and their cross-products.</p>
-<p>The null and alternative hypotheses are:</p>
-<p><span class="math inline">\(H_0\)</span>: Homoskedasticity exists (the error variance is constant).</p>
-<p><span class="math inline">\(H_1\)</span>: Heteroskedasticity exists (the error variance is not constant).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("lmtest") # Uncomment and run if needed</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform the White test for the simple model mpg ~ wt</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(model, <span class="sc">~</span> wt <span class="sc">+</span> <span class="fu">I</span>(wt<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate a Logit Model</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>logit_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(high_mpg <span class="sc">~</span> wt <span class="sc">+</span> hp, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> mtcars)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logit_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-    studentized Breusch-Pagan test
+Call:
+glm(formula = high_mpg ~ wt + hp, family = binomial(link = "logit"), 
+    data = mtcars)
 
-data:  model
-BP = 1.3663, df = 2, p-value = 0.505</code></pre>
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)    894.228 365884.162   0.002    0.998
+wt            -202.865  84688.218  -0.002    0.998
+hp              -2.021    858.062  -0.002    0.998
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 4.3860e+01  on 31  degrees of freedom
+Residual deviance: 1.1156e-08  on 29  degrees of freedom
+AIC: 6
+
+Number of Fisher Scoring iterations: 25</code></pre>
 </div>
-</div>
-<p>The <code>bptest()</code> output shows a BP test statistic and a p-value. A p-value &lt; 0.05 means you reject the null hypothesis of homoskedasticity. In the <code>mtcars</code> example above, we fail to reject the null hypothesis, suggesting that we have may not have heteroskedasticty.</p>
-<p>Alternatively:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Estimate the original simple regression model</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>simple_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> mtcars)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Obtain the squared residuals from the model</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>squared_residuals <span class="ot">&lt;-</span> <span class="fu">resid</span>(simple_model)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Perform the "auxiliary regression" for the White test:</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Regress the squared residuals on the original regressor (wt) and its square (wt²).</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>white_aux_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(squared_residuals <span class="sc">~</span> wt <span class="sc">+</span> <span class="fu">I</span>(wt<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> mtcars)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Conduct an F-test on the auxiliary model.</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># The null hypothesis is that the coefficients on 'wt' and 'I(wt^2)' are zero.</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("car") # Uncomment and run if you don't have the 'car' package</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="fu">linearHypothesis</span>(white_aux_model, <span class="fu">c</span>(<span class="st">"wt=0"</span>, <span class="st">"I(wt^2)=0"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate a Probit Model</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>probit_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(high_mpg <span class="sc">~</span> wt <span class="sc">+</span> hp, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"probit"</span>), <span class="at">data =</span> mtcars)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(probit_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Linear hypothesis test:
-wt = 0
-I(wt^2) = 0
+Call:
+glm(formula = high_mpg ~ wt + hp, family = binomial(link = "probit"), 
+    data = mtcars)
 
-Model 1: restricted model
-Model 2: squared_residuals ~ wt + I(wt^2)
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)   262.5104 58549.5044   0.004    0.996
+wt            -59.6114 13537.6593  -0.004    0.996
+hp             -0.5914   137.9606  -0.004    0.997
 
-  Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
-1     31 4542.5                           
-2     29 4348.6  2    193.95 0.6467 0.5312</code></pre>
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 4.3860e+01  on 31  degrees of freedom
+Residual deviance: 1.2574e-08  on 29  degrees of freedom
+AIC: 6
+
+Number of Fisher Scoring iterations: 25</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate average marginal effects for the logit model</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("margins")</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(margins)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>margins_logit <span class="ot">&lt;-</span> <span class="fu">margins</span>(logit_model)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(margins_logit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> factor     AME     SE       z      p   lower  upper
+     hp -0.0000 0.0000 -0.0001 0.9999 -0.0000 0.0000
+     wt -0.0000 0.0009 -0.0000 1.0000 -0.0017 0.0017</code></pre>
 </div>
 </div>
-<p>We look at the F-statistic and its p-value (Pr(&gt;F)). A p-value &lt; 0.05 provides evidence to reject the null hypothesis (<span class="math inline">\(H_0\)</span>) of homoskedasticity, thereby suggesting the error variance is not constant and depends on weight (wt). Here, again Pr(&gt;F) is 0.5312, hence we fail to reject the null.</p>
-
-
 </section>
 </section>
+</section>
+<section id="multinomial-and-ordered-models" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="multinomial-and-ordered-models"><span class="header-section-number">6.3</span> Multinomial and Ordered Models</h2>
+<ul>
+<li><strong>Multinomial Logit/Probit:</strong> Used when the dependent variable has more than two categories <strong>without a natural ordering</strong> (e.g., choice of transport: walk, car, BTS).</li>
+<li><strong>Ordered Logit/Probit:</strong> Used when the categories have a natural order (e.g., exam grades: A, B, C, D). Both are estimated via MLE.</li>
+</ul>
+</section>
+<section id="censored-and-truncated-regression-tobit-model" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="censored-and-truncated-regression-tobit-model"><span class="header-section-number">6.4</span> Censored and Truncated Regression (Tobit Model)</h2>
+<p>The Tobit model is used when the dependent variable is <strong>censored</strong>. For example, a variable can be zero for a substantial fraction of the observations but positive for the rest (e.g., hours worked, where some people work 0 hours).</p>
+<ul>
+<li><strong>Latent Model:</strong> ( Y_i^* = _i’ + u_i )</li>
+<li><strong>Observed Rule:</strong> ( Y_i =
+<span class="math display">\[\begin{cases} Y_i^* &amp; \text{if } Y_i^* &gt; 0 \\ 0 &amp; \text{if } Y_i^* \leq 0 \end{cases}\]</span>
+)</li>
+</ul>
+<p>Using OLS on the censored data leads to biased estimates. The Tobit model uses MLE to estimate the parameters, which accounts for both the probability of being censored and the value of the uncensored observations.</p>
+<p><strong>Example in R:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("AER")</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AER)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example using a simulated dataset. 'hours' is censored at 0.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># tobit_model &lt;- tobit(hours ~ age + education, data = dataset)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="count-data-models-poisson-regression" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="count-data-models-poisson-regression"><span class="header-section-number">6.5</span> Count Data Models (Poisson Regression)</h2>
+<p>When the dependent variable is a count (e.g., number of patents, number of doctor visits), a Poisson regression model is often appropriate.</p>
+<ul>
+<li>The Poisson probability density function is ( P(Y=y) = ), where ( E(Y) = Var(Y) = ).</li>
+<li>We model the mean ( _i ) as ( _i = E(Y_i | _i) = (_i’) ). This ensures the mean is always positive.</li>
+<li>Parameters are estimated by MLE.</li>
+</ul>
+<p><strong>Example in R:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Modeling number of awards (a count) in a dataset</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># poisson_model &lt;- glm(awards ~ math + prog, family = poisson, data = data)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="sample-selection-models-heckmans-heckit" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="sample-selection-models-heckmans-heckit"><span class="header-section-number">6.6</span> Sample Selection Models (Heckman’s Heckit)</h2>
+<p>Sample selection bias occurs when the sample is not randomly selected from the population. For example, estimating wages only for people who are employed (a non-random subset).</p>
+<ul>
+<li>The Heckit model is a two-step procedure:
+<ol type="1">
+<li><strong>Selection Equation (Probit):</strong> Model the probability of being included in the sample.</li>
+<li><strong>Outcome Equation:</strong> Model the outcome of interest, but include a correction term called the <strong>Inverse Mills Ratio (λ)</strong> estimated from the first step to control for selection bias.</li>
+</ol></li>
+<li>This corrects the bias that would occur if the second step were run on the selected sample alone.</li>
+</ul>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -812,13 +846,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./simple.html" class="pagination-link" aria-label="Simple Regression Model: Basics of OLS">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Simple Regression Model: Basics of OLS</span></span>
+      <a href="./dummynonlinear.html" class="pagination-link" aria-label="Non-linear Models and Dummy Variable Regression">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-linear Models and Dummy Variable Regression</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./multiple.html" class="pagination-link" aria-label="The Multiple Regression Model">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Multiple Regression Model</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
