@@ -4,33 +4,33 @@ Panel data (or longitudinal data) combines cross-sectional and time-series dimen
 
 ## What is Panel Data?
 
-Panel data consists of observations on the same `n` entities (individuals, firms, countries) at two or more time periods `T`.
+Panel data consists of observations on the same $n$ entities (individuals, firms, countries) at two or more time periods $T$.
 
--   **Notation:** `(X_it, Y_it)`, where `i = 1, ..., n` and `t = 1, ..., T`.
--   **Example:** Data on the same 100 companies (`i`) over 10 years (`t`).
+-   **Notation:** $(X_{it}, Y_{it})$, where $i = 1, \ldots, n$ and $t = 1, \ldots, T$.
+-   **Example:** Data on the same 100 companies ($i$) over 10 years ($t$).
 
 The major advantage of panel data is its ability to help resolve **omitted variable bias**, a primary source of endogeneity. If the omitted variable is constant over time for each entity, panel data methods can effectively control for it.
 
 ## The "Before and After" Comparison (First Differences)
 
-A simple intuitive approach for two time periods (`T=2`) is to compare changes over time.
+A simple intuitive approach for two time periods ($T=2$) is to compare changes over time.
 
-Suppose the "true" model includes an unobserved, time-invariant variable `Z_i` (e.g., managerial talent for a firm, innate ability for a person):
-\[
+Suppose the "true" model includes an unobserved, time-invariant variable $Z_i$ (e.g., managerial talent for a firm, innate ability for a person):
+$$
 Y_{it} = \beta_1 + \beta_2 X_{it} + \beta_3 Z_i + u_{it}
-\]
+$$
 
-For time period `t-1`, the model is:
-\[
+For time period $t-1$, the model is:
+$$
 Y_{it-1} = \beta_1 + \beta_2 X_{it-1} + \beta_3 Z_i + u_{it-1}
-\]
+$$
 
-Taking the difference between the two periods eliminates the time-invariant variable `Z_i`:
-\[
+Taking the difference between the two periods eliminates the time-invariant variable $Z_i$:
+$$
 Y_{it} - Y_{it-1} = \beta_2 (X_{it} - X_{it-1}) + (u_{it} - u_{it-1})
-\]
+$$
 
-This **First-Differenced (FD)** model can be estimated by OLS. The key insight is that we do not need to observe `Z_i` to consistently estimate `β_2`.
+This **First-Differenced (FD)** model can be estimated by OLS. The key insight is that we do not need to observe $Z_i$ to consistently estimate $\beta_2$.
 
 ## Fixed Effects Regression
 
@@ -39,10 +39,10 @@ The Fixed Effects (FE) model generalizes the "before and after" idea to more tha
 ### The Fixed Effects Model
 
 The model allows each entity to have its own intercept:
-\[
+$$
 Y_{it} = \beta_2 X_{2,it} + \ldots + \beta_k X_{k,it} + \alpha_i + u_{it}
-\]
-where `α_i` is the **entity-specific fixed effect**. This `α_i` captures all unobserved variables that are constant over time for entity `i`.
+$$
+where $\alpha_i$ is the **entity-specific fixed effect**. This $\alpha_i$ captures all unobserved variables that are constant over time for entity $i$.
 
 ### Estimation Methods
 
@@ -51,41 +51,41 @@ There are two common ways to estimate the Fixed Effects model:
 #### 1. Least Squares Dummy Variable (LSDV) Regression
 
 The model can be written with a common intercept and dummy variables for each entity (except one, to avoid perfect multicollinearity):
-\[
+$$
 Y_{it} = \beta_1 + \beta_2 X_{2,it} + \ldots + \beta_k X_{k,it} + \delta_2 D2_i + \delta_3 D3_i + \ldots + \delta_n Dn_i + u_{it}
-\]
-where `D2_i` is a dummy variable equal to 1 for the second entity, and so on.
+$$
+where $D2_i$ is a dummy variable equal to 1 for the second entity, and so on.
 
--   **Disadvantage:** With a large number of entities (`n`), you lose many **degrees of freedom** by estimating `n-1` dummy coefficients.
+-   **Disadvantage:** With a large number of entities ($n$), you lose many **degrees of freedom** by estimating $n-1$ dummy coefficients.
 
 #### 2. The "Entity-Demeaned" OLS Algorithm (Preferred)
 
 This is the more efficient computational method. It involves subtracting the entity-specific mean from each variable.
 
-1.  Calculate the entity-specific averages: `\(\bar{Y}_i = \frac{1}{T}\sum_{t=1}^T Y_{it}\)` and `\(\bar{X}_i = \frac{1}{T}\sum_{t=1}^T X_{it}\)`.
-2.  Demean the data: `\(Y_{it} - \bar{Y}_i\)` and `\(X_{it} - \bar{X}_i\)`.
+1.  Calculate the entity-specific averages: $\bar{Y}_i = \frac{1}{T}\sum_{t=1}^T Y_{it}$ and $\bar{X}_i = \frac{1}{T}\sum_{t=1}^T X_{it}$.
+2.  Demean the data: $Y_{it} - \bar{Y}_i$ and $X_{it} - \bar{X}_i$.
 3.  Run an OLS regression on the transformed (demeaned) variables:
-    \[
+    $$
     (Y_{it} - \bar{Y}_i) = \beta_2 (X_{2,it} - \bar{X}_{2,i}) + \ldots + \beta_k (X_{k,it} - \bar{X}_{k,i}) + (u_{it} - \bar{u}_i)
-    \]
+    $$
 
-This process, known as the **within transformation**, sweeps out the fixed effect `α_i`.
+This process, known as the **within transformation**, sweeps out the fixed effect $\alpha_i$.
 
 ### Time Fixed Effects
 
 In addition to entity-specific effects, there might be **time-specific effects** that affect all entities in a given time period (e.g., a common economic shock in a particular year).
 
 A model with both entity and time fixed effects is:
-\[
+$$
 Y_{it} = \beta_2 X_{2,it} + \ldots + \beta_k X_{k,it} + \alpha_i + \lambda_t + u_{it}
-\]
-where `λ_t` is the **time fixed effect**. This can be estimated by including entity dummies and time period dummies (or by demeaning both with respect to entities and time).
+$$
+where $\lambda_t$ is the **time fixed effect**. This can be estimated by including entity dummies and time period dummies (or by demeaning both with respect to entities and time).
 
 ### Testing for Fixed Effects
 
 You can test the joint significance of the entity fixed effects using an F-test that compares the Fixed Effects model to a simple OLS model (pooled regression) with a single constant term.
--   \(H_0: \alpha_1 = \alpha_2 = \ldots = \alpha_n\) (No entity-specific effects; pooled OLS is fine).
--   \(H_1: \) The `α_i` are not all equal (Fixed Effects model is appropriate).
+-   $H_0: \alpha_1 = \alpha_2 = \ldots = \alpha_n$ (No entity-specific effects; pooled OLS is fine).
+-   $H_1$: The $\alpha_i$ are not all equal (Fixed Effects model is appropriate).
 
 ## Random Effects Model
 
@@ -94,25 +94,25 @@ The Random Effects (RE) model is an alternative when the unobserved entity-speci
 ### The Random Effects Model
 
 The model treats the entity-specific intercept as a random variable:
-\[
+$$
 Y_{it} = \beta_1 + \beta_2 X_{2,it} + \ldots + \beta_k X_{k,it} + u_{it}
-\]
-where the composite error term is `\(u_{it} = \alpha_i + \epsilon_{it}\)`. The key assumption is that `α_i` (the random effect) is uncorrelated with the X's: `\(Cov(\alpha_i, X_{it}) = 0\)`.
+$$
+where the composite error term is $u_{it} = \alpha_i + \epsilon_{it}$. The key assumption is that $\alpha_i$ (the random effect) is uncorrelated with the X's: $Cov(\alpha_i, X_{it}) = 0$.
 
 The entity-specific intercept can be expressed as:
-\[
+$$
 \beta_{1i} = \beta_1 + e_i
-\]
-where `e_i` is a random error term with mean zero and constant variance.
+$$
+where $e_i$ is a random error term with mean zero and constant variance.
 
 ### Fixed Effects vs. Random Effects
 
--   **Fixed Effects (FE):** Use when the unobserved entity-specific effect `α_i` is likely to be **correlated** with the explanatory variables `X_it`. FE is more robust for causal inference as it eliminates this source of bias.
--   **Random Effects (RE):** Use when `α_i` is **uncorrelated** with the `X_it`. RE is more **efficient** (provides smaller standard errors) than FE if this assumption holds.
+-   **Fixed Effects (FE):** Use when the unobserved entity-specific effect $\alpha_i$ is likely to be **correlated** with the explanatory variables $X_{it}$. FE is more robust for causal inference as it eliminates this source of bias.
+-   **Random Effects (RE):** Use when $\alpha_i$ is **uncorrelated** with the $X_{it}$. RE is more **efficient** (provides smaller standard errors) than FE if this assumption holds.
 
 The **Hausman test** is used to decide between FE and RE models.
--   \(H_0\): The RE assumption is valid (`Cov(α_i, X_it) = 0`). Prefer RE.
--   \(H_1\): \(H_0\) is false. The FE model is consistent. Prefer FE.
+-   $H_0$: The RE assumption is valid ($Cov(\alpha_i, X_{it}) = 0$). Prefer RE.
+-   $H_1$: $H_0$ is false. The FE model is consistent. Prefer FE.
 -   A low p-value indicates you should use the Fixed Effects model.
 
 ## Implementation in R
