@@ -1,6 +1,5 @@
 # Welcome {.unnumbered}
 
-This is a Quarto document containing notes for the MAAE Applied Econometrics class, Fall 2025.
-Kindly note that this is work-in-progress and your comments are welcome to help improve this work!
+This is a Quarto document containing notes for the MAAE Applied Econometrics class, Fall 2025. Kindly note that this is work-in-progress and your comments are welcome to help improve this work!
 
 To learn more about Quarto books visit <https://quarto.org/docs/books>.
