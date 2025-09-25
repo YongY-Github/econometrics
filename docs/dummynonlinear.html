@@ -330,17 +330,17 @@ F-statistic: 65.64 on 2 and 29 DF,  p-value: 1.715e-11</code></pre>
 <section id="linear-log-model" class="level4" data-number="5.2.2.1">
 <h4 data-number="5.2.2.1" class="anchored" data-anchor-id="linear-log-model"><span class="header-section-number">5.2.2.1</span> 1. Linear-Log Model</h4>
 <p><strong>Model Specification:</strong> <span class="math display">\[Y_i = \alpha + \beta_1 \ln(X_i) + u_i\]</span></p>
-<p><strong>Interpretation:</strong> - A <strong>1% increase in X</strong> is associated with a <strong><span class="math inline">\(\beta_1 / 100\)</span> unit change in Y</strong>. - <span class="math inline">\(\beta_1\)</span> represents the change in <span class="math inline">\(Y\)</span> for a 1% change in <span class="math inline">\(X\)</span>.</p>
+<p><strong>Interpretation:</strong> - A <strong>1% increase in X</strong> is associated with a <span class="math inline">\(\beta_1 / 100\)</span> unit change in Y. - <span class="math inline">\(\beta_1\)</span> represents the change in <span class="math inline">\(Y\)</span> for a 1% change in <span class="math inline">\(X\)</span>.</p>
 </section>
 <section id="log-linear-model" class="level4" data-number="5.2.2.2">
 <h4 data-number="5.2.2.2" class="anchored" data-anchor-id="log-linear-model"><span class="header-section-number">5.2.2.2</span> 2. Log-Linear Model</h4>
 <p><strong>Model Specification:</strong> <span class="math display">\[\ln(Y_i) = \alpha + \beta_1 X_i + u_i\]</span></p>
-<p><strong>Interpretation:</strong> - A <strong>one-unit increase in X</strong> is associated with a <strong><span class="math inline">\((\beta_1 \times 100)\)</span>% change in Y</strong> (approximately, for small <span class="math inline">\(\beta_1\)</span>). - Exact percentage change is <span class="math inline">\(100 \times [\exp(\beta_1) - 1]\%\)</span>.</p>
+<p><strong>Interpretation:</strong> - A <strong>one-unit increase in X</strong> is associated with a <span class="math inline">\((\beta_1 \times 100)\)</span>% change in Y (approximately, for small <span class="math inline">\(\beta_1\)</span>). - Exact percentage change is <span class="math inline">\(100 \times [\exp(\beta_1) - 1]\%\)</span>.</p>
 </section>
 <section id="log-log-model" class="level4" data-number="5.2.2.3">
 <h4 data-number="5.2.2.3" class="anchored" data-anchor-id="log-log-model"><span class="header-section-number">5.2.2.3</span> 3. Log-Log Model</h4>
 <p><strong>Model Specification:</strong> <span class="math display">\[\ln(Y_i) = \alpha + \beta_1 \ln(X_i) + u_i\]</span></p>
-<p><strong>Interpretation:</strong> - <span class="math inline">\(\beta_1\)</span> is the <strong>elasticity</strong> of <span class="math inline">\(Y\)</span> with respect to <span class="math inline">\(X\)</span>. - A <strong>1% increase in X</strong> is associated with a <strong><span class="math inline">\(\beta_1\)</span>% change in Y</strong>.</p>
+<p><strong>Interpretation:</strong> - <span class="math inline">\(\beta_1\)</span> is the <strong>elasticity</strong> of <span class="math inline">\(Y\)</span> with respect to <span class="math inline">\(X\)</span>. - A <strong>1% increase in X</strong> is associated with a <span class="math inline">\(\beta_1\)</span>% change in Y.</p>
 <p><strong>Example in R:</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Log-Log model example: elasticity of mpg with respect to weight</span></span>
@@ -413,7 +413,7 @@ F-statistic: 71.66 on 3 and 28 DF,  p-value: 2.981e-13</code></pre>
 <h3 data-number="5.4.1" class="anchored" data-anchor-id="different-intercept-same-slope"><span class="header-section-number">5.4.1</span> Different Intercept, Same Slope</h3>
 <p>This is the most common use. The dummy variable shifts the regression line up or down.</p>
 <p><strong>Model Specification:</strong> <span class="math display">\[Y_i = \alpha + \beta D_i + \gamma X_i + u_i\]</span> where <span class="math inline">\(D_i = 1\)</span> if an observation belongs to a certain group, 0 otherwise.</p>
-<p><strong>Interpretation:</strong> - <span class="math inline">\(\alpha\)</span> is the intercept for the baseline group (<span class="math inline">\(D=0\)</span>). - <span class="math inline">\(\alpha + \beta\)</span> is the intercept for the group where <span class="math inline">\(D=1\)</span>. - <span class="math inline">\(\beta\)</span> captures the difference in the mean of <span class="math inline">\(Y\)</span> between the two groups, <strong>holding <span class="math inline">\(X\)</span> constant</strong>.</p>
+<p><strong>Interpretation:</strong> - <span class="math inline">\(\alpha\)</span> is the intercept for the baseline group (<span class="math inline">\(D=0\)</span>). - <span class="math inline">\(\alpha + \beta\)</span> is the intercept for the group where <span class="math inline">\(D=1\)</span>. - <span class="math inline">\(\beta\)</span> captures the difference in the mean of <span class="math inline">\(Y\)</span> between the two groups, <strong>holding</strong> <span class="math inline">\(X\)</span> constant.</p>
 </section>
 <section id="different-intercept-different-slope-interaction-with-a-dummy" class="level3" data-number="5.4.2">
 <h3 data-number="5.4.2" class="anchored" data-anchor-id="different-intercept-different-slope-interaction-with-a-dummy"><span class="header-section-number">5.4.2</span> Different Intercept, Different Slope (Interaction with a Dummy)</h3>
@@ -460,8 +460,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="a-note-on-adjusted-r-squared-and-model-comparison" class="level3" data-number="5.5.2">
 <h3 data-number="5.5.2" class="anchored" data-anchor-id="a-note-on-adjusted-r-squared-and-model-comparison"><span class="header-section-number">5.5.2</span> A Note on Adjusted R-squared and Model Comparison</h3>
 <ul>
-<li><strong>Use Adjusted R-squared (<span class="math inline">\(\bar{R}^2\)</span>) to compare models with the same dependent variable (Y).</strong> It penalizes for adding extra variables.</li>
-<li><strong>Do NOT use <span class="math inline">\(\bar{R}^2\)</span> to compare models with different dependent variables</strong> (e.g., a model for <code>Y</code> vs.&nbsp;a model for <code>log(Y)</code>). The Total Sum of Squares (SST) is different, making the <span class="math inline">\(R^2\)</span> values incomparable.</li>
+<li><strong>Use Adjusted R-squared (</strong><span class="math inline">\(\bar{R}^2\)</span>) to compare models with the same dependent variable (Y). It penalizes for adding extra variables.</li>
+<li><strong>Do NOT use</strong> <span class="math inline">\(\bar{R}^2\)</span> to compare models with different dependent variables (e.g., a model for <code>Y</code> vs.&nbsp;a model for <code>log(Y)</code>). The Total Sum of Squares (SST) is different, making the <span class="math inline">\(R^2\)</span> values incomparable.</li>
 <li>The F-test (Wald test), Likelihood Ratio (LR) test, and Lagrange Multiplier (LM) test are more robust methods for model comparison, especially for non-nested models or those with different dependent variables.</li>
 </ul>
 

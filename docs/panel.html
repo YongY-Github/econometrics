@@ -287,15 +287,15 @@ window.Quarto = {
 <h2 data-number="7.2" class="anchored" data-anchor-id="the-before-and-after-comparison-first-differences"><span class="header-section-number">7.2</span> The “Before and After” Comparison (First Differences)</h2>
 <p>A simple intuitive approach for two time periods (<span class="math inline">\(T=2\)</span>) is to compare changes over time.</p>
 <p>Suppose the “true” model includes an unobserved, time-invariant variable <span class="math inline">\(Z_i\)</span> (e.g., managerial talent for a firm, innate ability for a person): <span class="math display">\[
-Y_{it} = \beta_1 + \beta_2 X_{it} + \beta_3 Z_i + u_{it}
+Y_{it} = c + \beta X_{it} + \gamma Z_i + u_{it}
 \]</span></p>
 <p>For time period <span class="math inline">\(t-1\)</span>, the model is: <span class="math display">\[
-Y_{it-1} = \beta_1 + \beta_2 X_{it-1} + \beta_3 Z_i + u_{it-1}
+Y_{it-1} = c + \beta X_{it-1} + \gamma Z_i + u_{it-1}
 \]</span></p>
 <p>Taking the difference between the two periods eliminates the time-invariant variable <span class="math inline">\(Z_i\)</span>: <span class="math display">\[
-Y_{it} - Y_{it-1} = \beta_2 (X_{it} - X_{it-1}) + (u_{it} - u_{it-1})
+Y_{it} - Y_{it-1} = \beta (X_{it} - X_{it-1}) + (u_{it} - u_{it-1})
 \]</span></p>
-<p>This <strong>First-Differenced (FD)</strong> model can be estimated by OLS. The key insight is that we do not need to observe <span class="math inline">\(Z_i\)</span> to consistently estimate <span class="math inline">\(\beta_2\)</span>.</p>
+<p>This <strong>First-Differenced (FD)</strong> model can be estimated by OLS. The key insight is that we do not need to observe <span class="math inline">\(Z_i\)</span> to consistently estimate <span class="math inline">\(\beta\)</span>.</p>
 </section>
 <section id="fixed-effects-regression" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="fixed-effects-regression"><span class="header-section-number">7.3</span> Fixed Effects Regression</h2>
@@ -303,65 +303,71 @@ Y_{it} - Y_{it-1} = \beta_2 (X_{it} - X_{it-1}) + (u_{it} - u_{it-1})
 <section id="the-fixed-effects-model" class="level3" data-number="7.3.1">
 <h3 data-number="7.3.1" class="anchored" data-anchor-id="the-fixed-effects-model"><span class="header-section-number">7.3.1</span> The Fixed Effects Model</h3>
 <p>The model allows each entity to have its own intercept: <span class="math display">\[
-Y_{it} = \beta_2 X_{2,it} + \ldots + \beta_k X_{k,it} + \alpha_i + u_{it}
-\]</span> where <span class="math inline">\(\alpha_i\)</span> is the <strong>entity-specific fixed effect</strong>. This <span class="math inline">\(\alpha_i\)</span> captures all unobserved variables that are constant over time for entity <span class="math inline">\(i\)</span>.</p>
+Y_{it} = c + \beta_1 X_{1,it} + \ldots + \beta_k X_{k,it} + \alpha_i + \epsilon_{it}
+\]</span></p>
+<p>where <span class="math inline">\(\alpha_i\)</span> is the <strong>entity-specific fixed effect</strong>.</p>
+<p>Here the error term is decomposed into two parts: <span class="math inline">\(\alpha_i\)</span> which captures all unobserved variables that are constant over time for entity <span class="math inline">\(i\)</span>, and; <span class="math inline">\(\epsilon_{it}\)</span> is the usual stochastic term.</p>
 </section>
 <section id="estimation-methods" class="level3" data-number="7.3.2">
 <h3 data-number="7.3.2" class="anchored" data-anchor-id="estimation-methods"><span class="header-section-number">7.3.2</span> Estimation Methods</h3>
 <p>There are two common ways to estimate the Fixed Effects model:</p>
 <section id="least-squares-dummy-variable-lsdv-regression" class="level4" data-number="7.3.2.1">
 <h4 data-number="7.3.2.1" class="anchored" data-anchor-id="least-squares-dummy-variable-lsdv-regression"><span class="header-section-number">7.3.2.1</span> 1. Least Squares Dummy Variable (LSDV) Regression</h4>
-<p>The model can be written with a common intercept and dummy variables for each entity (except one, to avoid perfect multicollinearity): <span class="math display">\[
-Y_{it} = \beta_1 + \beta_2 X_{2,it} + \ldots + \beta_k X_{k,it} + \delta_2 D2_i + \delta_3 D3_i + \ldots + \delta_n Dn_i + u_{it}
-\]</span> where <span class="math inline">\(D2_i\)</span> is a dummy variable equal to 1 for the second entity, and so on.</p>
+<p>The model can be written with a common intercept and dummy variables for each entity (except one, to avoid perfect multicollinearity, a.k.a “dummy regression trap”): <span class="math display">\[
+Y_{it} = c + \beta_1 X_{1,it} + \ldots + \beta_k X_{k,it} + \delta_1 D_{1,i} + \delta_2 D_{2, i} + \ldots + \delta_{n-1} D_{n-1,i} + u_{it}
+\]</span> where <span class="math inline">\(D_{1,i}\)</span> is a dummy variable equal to 1 for the first entity, and so on, up to <span class="math inline">\(n-1\)</span>.</p>
 <ul>
 <li><strong>Disadvantage:</strong> With a large number of entities (<span class="math inline">\(n\)</span>), you lose many <strong>degrees of freedom</strong> by estimating <span class="math inline">\(n-1\)</span> dummy coefficients.</li>
 </ul>
 </section>
 <section id="the-entity-demeaned-ols-algorithm-preferred" class="level4" data-number="7.3.2.2">
 <h4 data-number="7.3.2.2" class="anchored" data-anchor-id="the-entity-demeaned-ols-algorithm-preferred"><span class="header-section-number">7.3.2.2</span> 2. The “Entity-Demeaned” OLS Algorithm (Preferred)</h4>
-<p>This is the more efficient computational method. It involves subtracting the entity-specific mean from each variable.</p>
+<p>This is the more efficient computational method whichinvolves subtracting the entity-specific mean from each variable.</p>
 <ol type="1">
 <li>Calculate the entity-specific averages: <span class="math inline">\(\bar{Y}_i = \frac{1}{T}\sum_{t=1}^T Y_{it}\)</span> and <span class="math inline">\(\bar{X}_i = \frac{1}{T}\sum_{t=1}^T X_{it}\)</span>.</li>
 <li>Demean the data: <span class="math inline">\(Y_{it} - \bar{Y}_i\)</span> and <span class="math inline">\(X_{it} - \bar{X}_i\)</span>.</li>
 <li>Run an OLS regression on the transformed (demeaned) variables: <span class="math display">\[
-(Y_{it} - \bar{Y}_i) = \beta_2 (X_{2,it} - \bar{X}_{2,i}) + \ldots + \beta_k (X_{k,it} - \bar{X}_{k,i}) + (u_{it} - \bar{u}_i)
+(Y_{it} - \bar{Y}_i) = \beta_1 (X_{1,it} - \bar{X}_{1,i}) + \ldots + \beta_k (X_{k,it} - \bar{X}_{k,i}) + (u_{it} - \bar{u}_i)
 \]</span></li>
 </ol>
-<p>This process, known as the <strong>within transformation</strong>, sweeps out the fixed effect <span class="math inline">\(\alpha_i\)</span>.</p>
+<p>This process, known as the <strong>within transformation</strong>, and effectively sweeps out the fixed effect <span class="math inline">\(\alpha_i\)</span>.</p>
 </section>
 </section>
 <section id="time-fixed-effects" class="level3" data-number="7.3.3">
 <h3 data-number="7.3.3" class="anchored" data-anchor-id="time-fixed-effects"><span class="header-section-number">7.3.3</span> Time Fixed Effects</h3>
 <p>In addition to entity-specific effects, there might be <strong>time-specific effects</strong> that affect all entities in a given time period (e.g., a common economic shock in a particular year).</p>
 <p>A model with both entity and time fixed effects is: <span class="math display">\[
-Y_{it} = \beta_2 X_{2,it} + \ldots + \beta_k X_{k,it} + \alpha_i + \lambda_t + u_{it}
-\]</span> where <span class="math inline">\(\lambda_t\)</span> is the <strong>time fixed effect</strong>. This can be estimated by including entity dummies and time period dummies (or by demeaning both with respect to entities and time).</p>
+Y_{it} = c + \beta_1 X_{1,it} + \ldots + \beta_k X_{k,it} + \alpha_i + \lambda_t + u_{it}
+\]</span> where <span class="math inline">\(\lambda_t\)</span> is the <strong>time fixed effect</strong>. This can be estimated by including entity dummies and time period dummies (or by demeaning both with respect to entities and time, or demeaning entity but including time period dummies <em>less</em> one).</p>
 </section>
 <section id="testing-for-fixed-effects" class="level3" data-number="7.3.4">
 <h3 data-number="7.3.4" class="anchored" data-anchor-id="testing-for-fixed-effects"><span class="header-section-number">7.3.4</span> Testing for Fixed Effects</h3>
-<p>You can test the joint significance of the entity fixed effects using an F-test that compares the Fixed Effects model to a simple OLS model (pooled regression) with a single constant term. - <span class="math inline">\(H_0: \alpha_1 = \alpha_2 = \ldots = \alpha_n\)</span> (No entity-specific effects; pooled OLS is fine). - <span class="math inline">\(H_1\)</span>: The <span class="math inline">\(\alpha_i\)</span> are not all equal (Fixed Effects model is appropriate).</p>
+<p>You can test the joint significance of the entity fixed effects using an F-test that compares the Fixed Effects model to a simple OLS model (pooled regression) with a single constant term.</p>
+<p><span class="math inline">\(H_0: \alpha_1 = \alpha_2 = \ldots = \alpha_n\)</span> (No entity-specific effects; pooled OLS is fine).</p>
+<p><span class="math inline">\(H_1\)</span>: The <span class="math inline">\(\alpha_i\)</span> are not all equal (Fixed Effects model is appropriate).</p>
 </section>
 </section>
 <section id="random-effects-model" class="level2" data-number="7.4">
 <h2 data-number="7.4" class="anchored" data-anchor-id="random-effects-model"><span class="header-section-number">7.4</span> Random Effects Model</h2>
-<p>The Random Effects (RE) model is an alternative when the unobserved entity-specific effect is <strong>uncorrelated with all the explanatory variables</strong>.</p>
+<p>The Random Effects (RE) model is an alternative estimator when the unobserved entity-specific effect is <strong>uncorrelated with all the explanatory variables</strong>.</p>
 <section id="the-random-effects-model" class="level3" data-number="7.4.1">
 <h3 data-number="7.4.1" class="anchored" data-anchor-id="the-random-effects-model"><span class="header-section-number">7.4.1</span> The Random Effects Model</h3>
 <p>The model treats the entity-specific intercept as a random variable: <span class="math display">\[
-Y_{it} = \beta_1 + \beta_2 X_{2,it} + \ldots + \beta_k X_{k,it} + u_{it}
-\]</span> where the composite error term is <span class="math inline">\(u_{it} = \alpha_i + \epsilon_{it}\)</span>. The key assumption is that <span class="math inline">\(\alpha_i\)</span> (the random effect) is uncorrelated with the X’s: <span class="math inline">\(Cov(\alpha_i, X_{it}) = 0\)</span>.</p>
-<p>The entity-specific intercept can be expressed as: <span class="math display">\[
-\beta_{1i} = \beta_1 + e_i
-\]</span> where <span class="math inline">\(e_i\)</span> is a random error term with mean zero and constant variance.</p>
+Y_{it} = c + \beta_1 X_{1,it} + \ldots + \beta_k X_{k,it} + u_{it}
+\]</span></p>
+<p>where, as before, the composite error term can be expressed as <span class="math inline">\(u_{it} = \alpha_i + \epsilon_{it}\)</span>.</p>
+<p>Here the key assumption is that <span class="math inline">\(\alpha_i\)</span> (the random effect) is uncorrelated with the <span class="math inline">\(X's\)</span> , i.e., <span class="math inline">\(Cov(\alpha_i, X_{it}) = 0\)</span>.</p>
 </section>
 <section id="fixed-effects-vs.-random-effects" class="level3" data-number="7.4.2">
 <h3 data-number="7.4.2" class="anchored" data-anchor-id="fixed-effects-vs.-random-effects"><span class="header-section-number">7.4.2</span> Fixed Effects vs.&nbsp;Random Effects</h3>
 <ul>
-<li><strong>Fixed Effects (FE):</strong> Use when the unobserved entity-specific effect <span class="math inline">\(\alpha_i\)</span> is likely to be <strong>correlated</strong> with the explanatory variables <span class="math inline">\(X_{it}\)</span>. FE is more robust for causal inference as it eliminates this source of bias.</li>
+<li><strong>Fixed Effects (FE):</strong> Use when the unobserved entity-specific effect <span class="math inline">\(\alpha_i\)</span> is likely to be <strong>correlated</strong> with the explanatory variables <span class="math inline">\(X_{it}\)</span>. FE should mitigate endogeneity issues as it eliminates this source of bias.</li>
 <li><strong>Random Effects (RE):</strong> Use when <span class="math inline">\(\alpha_i\)</span> is <strong>uncorrelated</strong> with the <span class="math inline">\(X_{it}\)</span>. RE is more <strong>efficient</strong> (provides smaller standard errors) than FE if this assumption holds.</li>
 </ul>
-<p>The <strong>Hausman test</strong> is used to decide between FE and RE models. - <span class="math inline">\(H_0\)</span>: The RE assumption is valid (<span class="math inline">\(Cov(\alpha_i, X_{it}) = 0\)</span>). Prefer RE. - <span class="math inline">\(H_1\)</span>: <span class="math inline">\(H_0\)</span> is false. The FE model is consistent. Prefer FE. - A low p-value indicates you should use the Fixed Effects model.</p>
+<p>The <strong>Hausman test</strong> is often used to decide between FE and RE models.</p>
+<p><span class="math inline">\(H_0\)</span>: The RE assumption is valid (<span class="math inline">\(Cov(\alpha_i, X_{it}) = 0\)</span>).</p>
+<p><span class="math inline">\(H_1\)</span>: <span class="math inline">\(H_0\)</span> is false. The FE model is consistent.</p>
+<p>Ans as usual, a low p-value indicates that the Fixed Effects model is preferred.</p>
 </section>
 </section>
 <section id="implementation-in-r" class="level2" data-number="7.5">
